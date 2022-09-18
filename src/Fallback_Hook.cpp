@@ -2,7 +2,6 @@
 
 namespace CombatPathing
 {
-
 	static inline const float RescaleDistance(float a_mult, float a_min, float a_max)
 	{
 		return a_min + a_mult * (a_max - a_min);

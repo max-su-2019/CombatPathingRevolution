@@ -1,4 +1,5 @@
 #include "CombatRadius_Hook.h"
+#include "Functions.h"
 
 namespace CombatPathing
 {
@@ -11,7 +12,7 @@ namespace CombatPathing
 	{
 		static_assert(sizeof(float) == 0x4);
 
-		if (!a_radius || !a_target || !a_attacker) {
+		if (!a_radius || !a_target || !a_attacker || !IsMeleeOnly(a_attacker)) {
 			return;
 		}
 
@@ -20,10 +21,10 @@ namespace CombatPathing
 
 		if (a_fullRadius) {
 			inner = RescaleRadius(a_delta, 50.f, 90.f, 250.f);
-			outer = 200.f;
+			outer = RescaleRadius(a_delta, 110.f, 200.f, 300.f);
 		} else {
 			inner = 90.f;
-			outer = 512.f;
+			outer = 200.f;
 		}
 	}
 
