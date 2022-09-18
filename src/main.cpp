@@ -1,4 +1,4 @@
-#include "Hook.h"
+#include "LoadGame.h"
 
 DLLEXPORT constinit auto SKSEPlugin_Version = []() noexcept {
 	SKSE::PluginVersionData data{};
@@ -36,10 +36,13 @@ DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 	INFO("{} v{} loaded", Plugin::NAME, Plugin::Version);
 
 	// do stuff
-	CombatPathing::CombatRadiusHook::Install();
-	CombatPathing::CirclingHook::InstallHook();
-	CombatPathing::FallbackHook::InstallHook();
-	CombatPathing::FallbackHook2::InstallHook();
+	auto g_message = SKSE::GetMessagingInterface();
+	if (!g_message) {
+		ERROR("Messaging Interface Not Found!");
+		return false;
+	}
+
+	g_message->RegisterListener(CombatPathing::EventCallback);
 
 	return true;
 }

@@ -1,0 +1,65 @@
+#pragma once
+#include "DKUtil/Hook.hpp"
+
+namespace CombatPathing
+{
+	using namespace DKUtil::Alias;
+
+	class FallbackStartHook
+	{
+	public:
+		static void InstallHook()
+		{
+			SKSE::AllocTrampoline(1 << 4);
+			auto& trampoline = SKSE::GetTrampoline();
+
+			REL::Relocation<std::uintptr_t> Base{ REL::ID(46712) };  //sub_1407D73D0
+			_GetFallbackDistance = trampoline.write_call<5>(Base.address() + 0x1EB, GetFallbackDistance);
+			INFO("Hook GetFallbackDistance!");
+		}
+
+	private:
+		static float GetFallbackDistance(RE::Actor* a_actor);
+
+		static inline REL::Relocation<decltype(GetFallbackDistance)> _GetFallbackDistance;
+	};
+
+	class FallbackUpdateHook
+	{
+		static float GetMaxFallbackDistance(RE::Character* a_me, RE::Character* a_he);
+
+		static constexpr std::uintptr_t FuncID = 46713;
+		static constexpr std::ptrdiff_t OffsetL = 0x246;
+		static constexpr std::ptrdiff_t OffsetH = 0x24E;
+
+		static constexpr Patch RelocateReturn{
+			// addss xmm6, xmm0
+			"\xF3\x0F\x58\xF0",
+			4
+		};
+
+	public:
+		static void InstallHook()
+		{
+			SKSE::AllocTrampoline(1 << 6);
+
+			auto funcAddr = REL::ID(FuncID).address();
+			Patch RelocatePointer{
+				AsPointer(funcAddr + OffsetL + 0x10),
+				6
+			};
+
+			auto handle = DKUtil::Hook::AddCaveHook(
+				funcAddr,
+				{ OffsetL, OffsetH },
+				FUNC_INFO(GetMaxFallbackDistance),
+				&RelocatePointer,
+				&RelocateReturn,
+				DKUtil::Hook::CaveHookFlag::kSkipOP);
+
+			handle->Enable();
+
+			INFO("Installed FallbackHook2");
+		}
+	};
+}
