@@ -38,6 +38,8 @@ DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 	// do stuff
 	CombatPathing::CombatRadiusHook::Install();
 	CombatPathing::CirclingHook::InstallHook();
+	CombatPathing::FallbackHook::InstallHook();
+	CombatPathing::FallbackHook2::InstallHook();
 
 	return true;
 }

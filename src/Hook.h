@@ -114,4 +114,74 @@ namespace CombatPathing
 
 		static inline REL::Relocation<decltype(GetCirclingChance)> _GetCirclingChance;
 	};
+
+	class FallbackHook
+	{
+	public:
+		static void InstallHook()
+		{
+			SKSE::AllocTrampoline(1 << 4);
+			auto& trampoline = SKSE::GetTrampoline();
+
+			REL::Relocation<std::uintptr_t> Base{ REL::ID(46712) };  //sub_1407D73D0
+			_GetFallbackDistance = trampoline.write_call<5>(Base.address() + 0x1EB, GetFallbackDistance);
+			INFO("Hook GetFallbackDistance!");
+		}
+
+	private:
+		static float GetFallbackDistance(RE::Actor* a_actor);
+
+		static float RescaleDistance(float a_mult, float a_min, float a_max);
+
+		static inline REL::Relocation<decltype(GetFallbackDistance)> _GetFallbackDistance;
+	};
+
+	class FallbackHook2
+	{
+		static float RecalculateFallbackDistance(RE::Character* a_me, RE::Character* a_he)
+		{
+			if (!a_me || !a_he) {
+				return 0.f;
+			}
+
+			DEBUG("ME: {}|0x{:08X} <-> HE: {}|0x{:08X}", a_me->GetName(), a_me->GetFormID(), a_he->GetName(), a_he->GetFormID());
+
+			return 1000.f;
+		}
+
+		static constexpr std::uintptr_t FuncID = 46713;
+		static constexpr std::ptrdiff_t OffsetL = 0x246;
+		static constexpr std::ptrdiff_t OffsetH = 0x24E;
+
+		static constexpr Patch RelocateReturn{
+			// addss xmm6, xmm0
+			"\xF3\x0F\x58\xF0",
+			4
+		};
+
+	public:
+		static void InstallHook()
+		{
+			SKSE::AllocTrampoline(1 << 6);
+
+			auto funcAddr = REL::ID(FuncID).address();
+			Patch RelocatePointer{
+				AsPointer(funcAddr + OffsetL + 0x10),
+				6
+			};
+
+			auto handle = DKUtil::Hook::AddCaveHook(
+				funcAddr,
+				{ OffsetL, OffsetH },
+				FUNC_INFO(RecalculateFallbackDistance),
+				&RelocatePointer,
+				&RelocateReturn,
+				DKUtil::Hook::CaveHookFlag::kSkipOP);
+
+			handle->Enable();
+
+			INFO("Installed FallbackHook2");
+		}
+	};
+
 }
