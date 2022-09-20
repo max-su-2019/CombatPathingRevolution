@@ -26,7 +26,7 @@ namespace CombatPathing
 
 	class FallbackUpdateHook
 	{
-		static float GetMaxFallbackDistance(RE::Character* a_me, RE::Character* a_he);
+		static float GetMaxFallbackDistance(RE::Actor* a_me, RE::Actor* a_he);
 
 		static constexpr std::uintptr_t FuncID = 46713;
 		static constexpr std::ptrdiff_t OffsetL = 0x246;
