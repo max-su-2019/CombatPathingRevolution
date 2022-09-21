@@ -1,0 +1,2 @@
+#  Developers Guidelines for Combat Pathing Revolution
+This article would instructs you on how to use the functions from **Combat Pathing Revolution (refers as CPR)** to apply customize AI combat pathing config for the moveset or Boss you has designed.
