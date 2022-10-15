@@ -1,2 +1,51 @@
-#  Developers Guidelines for Combat Pathing Revolution
-This article would instructs you on how to use the functions from **Combat Pathing Revolution (refers as CPR)** to apply customize AI combat pathing config for the moveset or Boss you has designed.
+#  Developer Guidelines of Combat Pathing Revolution
+This article would instructs you on how to utilize **Combat Pathing Revolution** (refers as **CPR**) to produce customize combat AI pathing features for npcs melee combat. Article comes with several sections below:
+* **Descriptions of Variables**
+* **Debugging In Game**
+* **Methods for Implementing**
+
+<br/> 
+
+## Descriptions of Variables
+---  
+In order to implement a dynamic and highly customizable AI pathing feature, CPR using graph variables (aslo called [Animation Variables](https://www.creationkit.com/index.php?title=List_of_Animation_Variables)) to represent the core data that relates to the melee Combat pathing control for an npc in the game engine. CPR using those graph variables to override those core data that controled the AI pathing, therefore with CPR, each npc in game now could has a completely unique pathing dataset that different from the vanilla one global value assign to everyone design.  
+
+One thing to mention before everthing is that **you don't need to consider the weapon length distance when assiging all of those CPR variables**, the weapon length will be added automactilly from skse plugin end when computing the final result.
+
+Below are the actions that NPC would perform during combat pathing and the CPR graph variables could be used to control these actions:
+
+### Advance & Back Off
+NPC would advances via running to approach the current combat target if distance to the target is beyond it combat outer radius, while executes back off if the combat target is within it combat inner radius. If the distance to combat target is between the outer and inner radius, Npc would then advances via walking to approach the target.
+Here are the graph variables that can be used to control this action:
+* **CPR_EnableCombatRadius**: boolean variable, set the value to true to enable the override of vanilla combat Radius data with CPR data, reset the value to false to keep everything working as vanilla.
+*  **CPR_InnerRadiusMin**: float variable,it value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than zero.
+*  **CPR_InnerRadiusMid**: float variable,this value represents the medium inner radius value that the actor identify during pathing.  The variable value should be greater than **CPR_InnerRadiusMin**.
+*  **CPR_InnerRadiusMax**: float variable,it value represents the maxnium inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid**.
+*  **CPR_OuterRadiusMin**: float variable,it value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMin**.
+*  **CPR_OuterRadiusMid**: float variable,it value represents the medimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid** and **CPR_OuterRadiusMin**.
+*  **CPR_OuterRadiusMax**: float variable,it value represents the maximum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMax** and **CPR_OuterRadiusMid**.  
+
+The formula to get the real combat radius value is as following:
+
+* If NPC want make offensive:
+```
+InnerRadius = CPR_InnerRadiusMin + (CPR_InnerRadiusMid - CPR_InnerRadiusMin) * (1 - offensiveRatio)
+
+OuterRadius = CPR_OuterRadiusMin + (CPR_OuterRadiusMid - CPR_OuterRadiusMin) * (1 - offensiveRatio)
+```
+
+* If NPC is defensive:
+```
+InnerRadius = CPR_InnerRadiusMid + (CPR_InnerRadiusMax - CPR_InnerRadiusMid) * defensiveRatio
+
+OuterRadius = CPR_OuterRadiusMid + (CPR_OuterRadiusMax - CPR_OuterRadiusMid) * defensiveRatio
+```  
+<br/> 
+
+### Circling
+NPC could perform circling around it combat target when in close distance combat. CPR added two graph variable to control the npc circling actions, intend to make combat circling acts more like the way in modern action game:
+* **CPR_EnableCircling**: boolean variable,  set the value to true to enable the override of vanilla combat circling data with CPR data, reset the value to false to keep everything working as vanilla.
+* **CPR_CirclingDistMin**: float variable, it value represents the necessary minimum distance from the combat target to perform circling. Only when the distance to the combat target is greater than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_InnerRadiusMin** to work as intended.
+*  **CPR_CirclingDistMax**: float variable, it value represents the maximum distance from the combat target to perform circling. Only when the distance to the combat target is less than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_CirclingDistMin**.
+
+

@@ -22,7 +22,7 @@ namespace CombatPathing
 					auto weaponRange = GetEquippementRange(a_actor->combatController->inventory);
 					auto distance = a_actor->GetPosition().GetDistance(a_actor->currentCombatTarget.get()->GetPosition()) - a_actor->currentCombatTarget.get()->GetBoundRadius();
 					if (distance < circlingDistMin + weaponRange || distance > 300.f + circlingDistMax)
-						return 0.f;
+						return max(0.1f, a_minChance);  //The chance must be a bit greater than zero, ohterwise NPC would be stucked by barriers.
 				}
 			}
 		}

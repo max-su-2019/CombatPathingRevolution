@@ -5,6 +5,26 @@ namespace CombatPathing
 {
 	using namespace DKUtil::Alias;
 
+	class Hook_GetOffensive
+	{
+	public:
+		static void install()
+		{
+			auto& trampoline = SKSE::GetTrampoline();
+			REL::Relocation<std::uintptr_t> Base{ REL::ID(49747) };
+			_GetOffensive = trampoline.write_call<5>(Base.address() + 0x15, GetOffensive);
+			INFO("hook:GetOffensive");
+		}
+
+	private:
+		static float GetOffensive(RE::Actor* a_actor)
+		{
+			return -1.0f;
+		}
+
+		static inline REL::Relocation<decltype(GetOffensive)> _GetOffensive;
+	};
+
 	class FallbackStartHook
 	{
 	public:
