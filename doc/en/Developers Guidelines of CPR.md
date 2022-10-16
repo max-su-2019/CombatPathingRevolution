@@ -1,29 +1,29 @@
 #  Developer Guidelines of Combat Pathing Revolution
 This article would instructs you on how to utilize **Combat Pathing Revolution** (refers as **CPR**) to produce customize combat AI pathing features for npcs melee combat. Article comes with several sections below:
-* **Descriptions of Variables**
-* **Debugging In Game**
+* [**Descriptions of Variables**](#descriptions-of-variables)
+* [**Debugging In Game**](#debugging-in-game)
 * **Methods for Implementing**
 
 <br/> 
 
 ## Descriptions of Variables
 ---  
-In order to implement a dynamic and highly customizable AI pathing feature, CPR using graph variables (aslo called [Animation Variables](https://www.creationkit.com/index.php?title=List_of_Animation_Variables)) to represent the core data that relates to the melee Combat pathing control for an npc in the game engine. CPR using those graph variables to override those core data that controled the AI pathing, therefore with CPR, each npc in game now could has a completely unique pathing dataset that different from the vanilla one global value assign to everyone design.  
+In order to implement a dynamic and highly customizable AI pathing feature, CPR using graph variables (aslo called [Animation Variables](https://www.creationkit.com/index.php?title=List_of_Animation_Variables)) to represent the core data that relates to the melee combat pathing control for an npc in the game engine. CPR using those graph variables to override those core data that controled the AI pathing, therefore with CPR, each npc in game now could has a completely unique pathing dataset that different from the vanilla one global value assign to everyone design.  
 
-One thing to mention before everthing is that **you don't need to consider the weapon length distance when assiging all of those CPR variables**, the weapon length will be added automactilly from skse plugin end when computing the final result.
+One thing to mention before everthing is that **you don't need to consider the weapon length distance when assiging all of those CPR distance variables**, the weapon length will be added automactilly from skse plugin end when computing the final result.
 
 Below are the actions that NPC would perform during combat pathing and the CPR graph variables could be used to control these actions:
 
 ### Advance & Back Off
-NPC would advances via running to approach the current combat target if distance to the target is beyond it combat outer radius, while executes back off if the combat target is within it combat inner radius. If the distance to combat target is between the outer and inner radius, Npc would then advances via walking to approach the target.
+NPC would advances via running to approach the current combat target if distance to the target is beyond its **combat outer radius**, while executes back off if the combat target is within its **combat inner radius**. If the distance to combat target is between the outer and inner radius, Npc would then advances via walking to approach the target.
 Here are the graph variables that can be used to control this action:
 * **CPR_EnableCombatRadius**: boolean variable, set the value to true to enable the override of vanilla combat Radius data with CPR data, reset the value to false to keep everything working as vanilla.
-*  **CPR_InnerRadiusMin**: float variable,it value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than zero.
+*  **CPR_InnerRadiusMin**: float variable, its value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than zero.
 *  **CPR_InnerRadiusMid**: float variable,this value represents the medium inner radius value that the actor identify during pathing.  The variable value should be greater than **CPR_InnerRadiusMin**.
-*  **CPR_InnerRadiusMax**: float variable,it value represents the maxnium inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid**.
-*  **CPR_OuterRadiusMin**: float variable,it value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMin**.
-*  **CPR_OuterRadiusMid**: float variable,it value represents the medimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid** and **CPR_OuterRadiusMin**.
-*  **CPR_OuterRadiusMax**: float variable,it value represents the maximum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMax** and **CPR_OuterRadiusMid**.  
+*  **CPR_InnerRadiusMax**: float variable, its value represents the maxnium inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid**.
+*  **CPR_OuterRadiusMin**: float variable, it value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMin**.
+*  **CPR_OuterRadiusMid**: float variable, it value represents the medimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid** and **CPR_OuterRadiusMin**.
+*  **CPR_OuterRadiusMax**: float variable, it value represents the maximum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMax** and **CPR_OuterRadiusMid**.  
 
 The formula to get the real combat radius value is as following:
 
@@ -43,9 +43,38 @@ OuterRadius = CPR_OuterRadiusMid + (CPR_OuterRadiusMax - CPR_OuterRadiusMid) * d
 <br/> 
 
 ### Circling
-NPC could perform circling around it combat target when in close distance combat. CPR added two graph variable to control the npc circling actions, intend to make combat circling acts more like the way in modern action game:
-* **CPR_EnableCircling**: boolean variable,  set the value to true to enable the override of vanilla combat circling data with CPR data, reset the value to false to keep everything working as vanilla.
-* **CPR_CirclingDistMin**: float variable, it value represents the necessary minimum distance from the combat target to perform circling. Only when the distance to the combat target is greater than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_InnerRadiusMin** to work as intended.
-*  **CPR_CirclingDistMax**: float variable, it value represents the maximum distance from the combat target to perform circling. Only when the distance to the combat target is less than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_CirclingDistMin**.
+NPC could perform circling around its combat target during close range combat. CPR has introduced min and max distance restriction for circling, in odrder to make combat circling acts more like the way in modern action game:
+* **CPR_EnableCircling**: boolean variable, set the value to true to enable the override of vanilla combat circling data with CPR data, reset the value to false to keep everything working as vanilla.
+* **CPR_CirclingDistMin**: float variable, its value represents the necessary minimum distance from the combat target to perform circling. Only when the distance to the combat target is greater than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_InnerRadiusMin** to work as intended.
+*  **CPR_CirclingDistMax**: float variable, its value represents the maximum distance from the combat target to perform circling. Only when the distance to the combat target is less than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_CirclingDistMin**.  
+  
+Be caution that npc would won't perform circling if it has not **Close Range - Dueling** box checked in its combat style.
+<br/> 
 
+### Fallback
+NPC could perform fallback during close range combat, how far the distance the npc would moving during a fallback is decided by its combat style fallback mult and CPR graph variables below:  
+* **CPR_EnableFallback**: boolean variable, set the value to true to enable the override of vanilla combat fallback data with CPR data, reset the value to false to keep everything working as vanilla.
+*  **CPR_FallbackDistMin**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_OuterRadiusMin** to work as intended.
+*  **CPR_FallbackDistMax**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_FallbackDistMin** to work as intended.
 
+The formula to comput the real fallback distance is as following:
+```
+FallbackDistance = CPR_FallbackDistMin + (CPR_FallbackDistMax - CPR_FallbackDistMin) * CombatStyleFallbackMult 
+```
+
+Be caution that npc would won't perform fallback if it has not **Close Range - Dueling** box checked in its combat style.  
+
+---
+<br/> 
+
+## Debugging In Game
+---
+A convenience way to set and test CPR pathing data for npc during gameplay is by using [console command batch files](https://skyrimcommands.com/command/bat). CPR has provided three command batch files to satisfy the demand of debugging:
+* "MaxsuCPR_Enable.ini": Run this batch file would enable and set up CPR pathing data for an npc, and override its vanilla combat pathing data with CPR graph variable.
+*  "MaxsuCPR_Disable.ini": Run this batch file would disable CPR pathing data effect on an npc, and restore its combat pathing back to vanilla.
+*  "MaxsuCPR_Display.ini": Run this batch file would display all of the CPR graph variables value on the console screen.
+
+To run a batch file, simply enter command like this in the console:
+```
+bat ""MaxsuCPR_Enable.ini"
+```
