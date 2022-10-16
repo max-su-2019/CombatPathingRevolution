@@ -43,7 +43,7 @@ OuterRadius = CPR_OuterRadiusMid + (CPR_OuterRadiusMax - CPR_OuterRadiusMid) * d
 <br/> 
 
 ### Circling
-NPC could perform circling around its combat target during close range combat. CPR has introduced min and max distance restriction for circling, in odrder to make combat circling acts more like the way in modern action game:
+NPC could perform circling around its combat target during close range combat. CPR has introduced min and max distance restriction for circling, in order to make combat circling acts more like the way in modern action game:
 * **CPR_EnableCircling**: boolean variable, set the value to true to enable the override of vanilla combat circling data with CPR data, reset the value to false to keep everything working as vanilla.
 * **CPR_CirclingDistMin**: float variable, its value represents the necessary minimum distance from the combat target to perform circling. Only when the distance to the combat target is greater than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_InnerRadiusMin** to work as intended.
 *  **CPR_CirclingDistMax**: float variable, its value represents the maximum distance from the combat target to perform circling. Only when the distance to the combat target is less than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_CirclingDistMin**.  
