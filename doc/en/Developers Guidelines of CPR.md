@@ -74,7 +74,7 @@ A convenience way to set and test CPR pathing data for npc during gameplay is by
 *  "MaxsuCPR_Disable.ini": Run this batch file would disable CPR pathing data effect on an npc, and restore its combat pathing back to vanilla.
 *  "MaxsuCPR_Display.ini": Run this batch file would display all of the CPR graph variables value on the console screen.
 
-To run a batch file, simply enter command like this in the console:
+To run the batch file, simply selcet an npc in the console then enter command like this:
 ```
 bat ""MaxsuCPR_Enable.ini"
 ```
