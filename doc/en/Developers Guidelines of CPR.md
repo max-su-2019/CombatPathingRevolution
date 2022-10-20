@@ -14,10 +14,10 @@ One thing to mention before everthing is that **you don't need to consider the w
 
 Below are the actions that NPC would perform during combat pathing and the CPR graph variables could be used to control these actions:
 
-### Advance & Back Off
-NPC would advances via running to approach the current combat target if distance to the target is beyond its **combat outer radius**, while executes back off if the combat target is within its **combat inner radius**. If the distance to combat target is between the outer and inner radius, Npc would then advances via walking to approach the target.
+### Advance
+NPC would sprinting forward to approach the current combat target if distance to the target is beyond its **combat advance outer radius**, while the distance is between the **combat advance outer radius** and **combat advance inner radius**, npc would then advances in normal speed to approach the target.
 Here are the graph variables that can be used to control this action:
-* **CPR_EnableCombatRadius**: boolean variable, set the value to true to enable the override of vanilla combat Radius data with CPR data, reset the value to false to keep everything working as vanilla.
+* **CPR_EnableAdvanceRadius**: boolean variable, set the value to true to enable the override of vanilla combat advance radius data with CPR data, reset the value to false to keep everything working as vanilla.
 *  **CPR_InnerRadiusMin**: float variable, its value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than zero.
 *  **CPR_InnerRadiusMid**: float variable,this value represents the medium inner radius value that the actor identify during pathing.  The variable value should be greater than **CPR_InnerRadiusMin**.
 *  **CPR_InnerRadiusMax**: float variable, its value represents the maxnium inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid**.
@@ -25,7 +25,7 @@ Here are the graph variables that can be used to control this action:
 *  **CPR_OuterRadiusMid**: float variable, it value represents the medimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid** and **CPR_OuterRadiusMin**.
 *  **CPR_OuterRadiusMax**: float variable, it value represents the maximum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMax** and **CPR_OuterRadiusMid**.  
 
-The formula to get the real combat radius value is as following:
+The formula to get the real combat advance radius value is as following:
 
 * If NPC want make offensive:
 ```
@@ -40,6 +40,16 @@ InnerRadius = CPR_InnerRadiusMid + (CPR_InnerRadiusMax - CPR_InnerRadiusMid) * d
 
 OuterRadius = CPR_OuterRadiusMid + (CPR_OuterRadiusMax - CPR_OuterRadiusMid) * defensiveRatio
 ```  
+<br/> 
+
+### Backoff
+Npc would perform back off(the short distance retreating) when it consider itself too close to it combat target. CPR introduced these graph variables to provide more customized in the backoff action:
+* **CPR_EnableBackoff**: boolean variable, set the value to true to enable the override of vanilla backoff data with CPR data, reset the value to false to keep everything working as vanilla.
+* **CPR_BackoffMinDistMult**: float variable, Backoff would only trigger when:  
+`combatTargetDistance < InnerRadius * CPR_BackoffMinDistMult`
+
+* **CPR_BackoffChance**: float variable, it value represents the possibility that npc performs backoff.  
+
 <br/> 
 
 ### Circling
