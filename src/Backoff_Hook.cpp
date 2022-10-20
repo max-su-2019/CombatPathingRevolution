@@ -35,10 +35,13 @@ namespace CombatPathing
 		if (a_extradata) {
 			a_extradata->func1 = RecalculateBackoffChance;
 			a_extradata->func2 = nullptr;
-		}
 
-		static REL::Relocation<decltype(WrapToRandomNode)> _WrapToRandomNode{ REL::ID(46641) };
-		return _WrapToRandomNode(a_array, a_name, a_extradata, a_node);
+			static REL::Relocation<decltype(WrapToRandomNode)> WrapToRandomNode_New{ REL::ID(46641) };
+			return WrapToRandomNode_New(a_array, a_name, a_extradata, a_node);
+		} else {
+			ERROR("GetBackoffChance Redirect fail!");
+			return _WrapToRandomNode(a_array, a_name, a_extradata, a_node);
+		}
 	}
 
 }

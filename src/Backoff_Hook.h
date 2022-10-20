@@ -56,11 +56,13 @@ namespace CombatPathing
 			auto& trampoline = SKSE::GetTrampoline();
 
 			REL::Relocation<std::uintptr_t> Base{ REL::ID(46731) };  //sub_1407D97D0
-			trampoline.write_call<5>(Base.address() + 0xD7, WrapToRandomNode);
+			_WrapToRandomNode = trampoline.write_call<5>(Base.address() + 0xD7, WrapToRandomNode);
 			INFO("Hook BackoffChance!");
 		}
 
 	private:
 		static NodeArray& WrapToRandomNode(NodeArray& a_array, const char* a_name, TreeCtors_extradata* a_extradata, CombatBehaviorTreeNode* a_node);
+
+		static inline REL::Relocation<decltype(WrapToRandomNode)> _WrapToRandomNode;
 	};
 }
