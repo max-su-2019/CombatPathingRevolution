@@ -65,7 +65,7 @@ Be caution that npc would won't perform circling if it has not **Close Range - D
 ### Fallback
 NPC could perform fallback during close range combat, how far the distance the npc would moving during a fallback is decided by its combat style fallback mult and CPR graph variables below:  
 * **CPR_EnableFallback**: boolean variable, set the value to true to enable the override of vanilla combat fallback data with CPR data, reset the value to false to keep everything working as vanilla.
-*  **CPR_FallbackDistMin**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_OuterRadiusMin** to work as intended.
+*  **CPR_FallbackDistMin**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_InnerRadiusMid** to work as intended.
 *  **CPR_FallbackDistMax**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_FallbackDistMin** to work as intended.
 
 The formula to comput the real fallback distance is as following:
