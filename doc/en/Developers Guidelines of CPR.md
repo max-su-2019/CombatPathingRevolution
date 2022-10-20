@@ -87,5 +87,5 @@ A convenience way to set and test CPR pathing data for npc during gameplay is by
 
 To run the batch file, simply selcet an npc in the console then enter command like this:
 ```
-bat ""MaxsuCPR_Enable.ini"
+bat "MaxsuCPR_Enable.ini"
 ```
