@@ -1,4 +1,5 @@
 #include "LoadGame.h"
+#include "Backoff_Hook.h"
 #include "Circling_Hook.h"
 #include "CombatRadius_Hook.h"
 #include "ConsoleCommands.h"
@@ -10,10 +11,16 @@ namespace CombatPathing
 	{
 		if (msg->type == SKSE::MessagingInterface::kPostLoad) {
 			ConsoleCommands::Register();
+
 			CirclingHook::InstallHook();
+
 			CombatRadiusHook::Install();
+
 			FallbackStartHook::InstallHook();
 			FallbackUpdateHook::InstallHook();
+
+			BackoffStartHook::InstallHook();
+			BackoffChanceHook::InstallHook();
 
 			//Hook_GetOffensive::install();
 		}

@@ -35,7 +35,7 @@ namespace CombatPathing
 
 			REL::Relocation<std::uintptr_t> Base{ REL::ID(46712) };  //sub_1407D73D0
 			_GetFallbackDistance = trampoline.write_call<5>(Base.address() + 0x1EB, GetFallbackDistance);
-			INFO("Hook GetFallbackDistance!");
+			INFO("Hook FallbackStart!");
 		}
 
 	private:
@@ -49,8 +49,8 @@ namespace CombatPathing
 		static float GetMaxFallbackDistance(RE::Actor* a_me, RE::Actor* a_he);
 
 		static constexpr std::uintptr_t FuncID = 46713;
-		static constexpr std::ptrdiff_t OffsetL = 0x246;
-		static constexpr std::ptrdiff_t OffsetH = 0x24E;
+		static constexpr std::ptrdiff_t OffsetL = 0x246;  //7D7986
+		static constexpr std::ptrdiff_t OffsetH = 0x24E;  //7D798E
 
 		static constexpr Patch RelocateReturn{
 			// addss xmm6, xmm0
@@ -65,7 +65,7 @@ namespace CombatPathing
 
 			auto funcAddr = REL::ID(FuncID).address();
 			Patch RelocatePointer{
-				AsPointer(funcAddr + OffsetL + 0x10),
+				AsPointer(funcAddr + OffsetL + 0x10),  //7D7996
 				6
 			};
 
@@ -79,7 +79,7 @@ namespace CombatPathing
 
 			handle->Enable();
 
-			INFO("Installed FallbackHook2");
+			INFO("Hook FallbackUpdate");
 		}
 	};
 }

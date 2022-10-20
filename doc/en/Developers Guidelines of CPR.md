@@ -48,8 +48,9 @@ NPC could perform circling around its combat target during close range combat. C
 * **CPR_CirclingDistMin**: float variable, its value represents the necessary minimum distance from the combat target to perform circling. Only when the distance to the combat target is greater than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_InnerRadiusMin** to work as intended.
 *  **CPR_CirclingDistMax**: float variable, its value represents the maximum distance from the combat target to perform circling. Only when the distance to the combat target is less than the value, NPC would intend to perform circling. The variable value should be greater than **CPR_CirclingDistMin**.  
   
-Be caution that npc would won't perform circling if it has not **Close Range - Dueling** box checked in its combat style.
-<br/> 
+Be caution that npc would won't perform circling if it has not **Close Range - Dueling** box checked in its combat style.  
+
+<br/>   
 
 ### Fallback
 NPC could perform fallback during close range combat, how far the distance the npc would moving during a fallback is decided by its combat style fallback mult and CPR graph variables below:  
