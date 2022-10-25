@@ -1,5 +1,5 @@
 #  Developer Guidelines of Combat Pathing Revolution
-This article would instructs you on how to utilize **Combat Pathing Revolution** (refers as **CPR**) to produce customizable combat AI pathing features for npcs melee combat. Article comes with several sections below:
+This article would instructs you on how to utilize **Combat Pathing Revolution** (refers as **CPR**) to produce customizable combat AI pathing data for npcs melee combat. Article comes with several sections below:
 * [**Descriptions of Variables**](#descriptions-of-variables)
 * [**Debugging In Game**](#debugging-in-game)
 * **Methods for Implementing**
