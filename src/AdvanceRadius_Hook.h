@@ -57,7 +57,7 @@ namespace CombatPathing
 				FUNC_INFO(RecalculateAdvanceRadius),
 				&RadiusPatch,
 				&Epilog,
-				DKUtil::Hook::CaveHookFlag::kRestoreBeforeProlog);
+				DKUtil::Hook::HookFlag::kRestoreBeforeProlog);
 
 			Hook_SetRadius->Enable();
 
@@ -67,7 +67,7 @@ namespace CombatPathing
 				FUNC_INFO(RecalculateAdvanceRadius),
 				&MedianPatch,
 				&Epilog,
-				DKUtil::Hook::CaveHookFlag::kRestoreBeforeProlog);
+				DKUtil::Hook::HookFlag::kRestoreBeforeProlog);
 
 			// recalculate displacement
 			Disp32 disp = *std::bit_cast<Disp32*>(AsPointer(Hook_SetMedian->TramEntry + 0x4));

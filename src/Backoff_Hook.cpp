@@ -20,7 +20,7 @@ namespace CombatPathing
 
 	BackoffChanceHook::NodeArray& BackoffChanceHook::WrapToRandomNode(NodeArray& a_array, const char* a_name, TreeCtors_extradata* a_extradata, CombatBehaviorTreeNode* a_node)
 	{
-		static float (*RecalculateBackoffChance)(RE::Actor*) = [](RE::Actor* a_actor) -> float {
+		static auto RecalculateBackoffChance = +[](RE::Actor* a_actor) -> float {
 			bool enablebackoff;
 			if (a_actor && a_actor->GetGraphVariableBool(ENABLE_BACKOFF_GV, enablebackoff) && enablebackoff) {
 				float backoffChance;

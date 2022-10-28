@@ -75,7 +75,7 @@ namespace CombatPathing
 				FUNC_INFO(GetMaxFallbackDistance),
 				&RelocatePointer,
 				&RelocateReturn,
-				DKUtil::Hook::CaveHookFlag::kSkipOP);
+				DKUtil::Hook::HookFlag::kSkipNOP);
 
 			handle->Enable();
 

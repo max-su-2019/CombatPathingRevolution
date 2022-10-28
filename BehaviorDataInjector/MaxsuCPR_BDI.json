@@ -1,0 +1,115 @@
+[   
+    {
+        "projectNames": [],
+        "type": "kBool",
+        "name": "CPR_EnableAdvanceRadius",
+        "value": false
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_InnerRadiusMin",
+        "value": 0
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_InnerRadiusMid",
+        "value": 0
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_InnerRadiusMax",
+        "value": 256
+    },
+
+    
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_OuterRadiusMin",
+        "value": 256
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_OuterRadiusMid",
+        "value": 512
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_OuterRadiusMax",
+        "value": 1024
+    },
+
+    {
+        "projectNames": [],
+        "type": "kBool",
+        "name": "CPR_EnableBackoff",
+        "value": false
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_BackoffMinDistMult",
+        "value": 0.75
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_BackoffChance",
+        "value": 0.25
+    },
+
+    {
+        "projectNames": [],
+        "type": "kBool",
+        "name": "CPR_EnableCircling",
+        "value": false
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_CirclingDistMin",
+        "value": 0
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_CirclingDistMax",
+        "value": 1024
+    },
+
+
+    {
+        "projectNames": [],
+        "type": "kBool",
+        "name": "CPR_EnableFallback",
+        "value": false
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_FallbackDistMin",
+        "value": 96
+    },
+
+    {
+        "projectNames": [],
+        "type": "kFloat",
+        "name": "CPR_FallbackDistMax",
+        "value": 256
+    }
+]

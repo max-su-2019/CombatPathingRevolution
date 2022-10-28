@@ -21,7 +21,7 @@ namespace CombatPathing
 				auto FallbackDistance = RescaleDistance(fallbackMult, fallbackDistMin, fallbackDistMax);
 				auto diameter = a_actor->GetBoundRadius() * 2.0f;
 
-				return max(FallbackDistance, diameter);
+				return std::max(FallbackDistance, diameter);
 			}
 		}
 
