@@ -1,5 +1,5 @@
 #  Developer Guidelines of Combat Pathing Revolution
-This article would instructs you on how to utilize **Combat Pathing Revolution** (refers as **CPR**) to produce customize combat AI pathing features for npcs melee combat. Article comes with several sections below:
+This article would instructs you on how to utilize **Combat Pathing Revolution** (refers as **CPR**) to produce customizable combat AI pathing data for npcs melee combat. Article comes with several sections below:
 * [**Descriptions of Variables**](#descriptions-of-variables)
 * [**Debugging In Game**](#debugging-in-game)
 * **Methods for Implementing**
@@ -65,7 +65,7 @@ Be caution that npc would won't perform circling if it has not **Close Range - D
 ### Fallback
 NPC could perform fallback during close range combat, how far the distance the npc would moving during a fallback is decided by its combat style fallback mult and CPR graph variables below:  
 * **CPR_EnableFallback**: boolean variable, set the value to true to enable the override of vanilla combat fallback data with CPR data, reset the value to false to keep everything working as vanilla.
-*  **CPR_FallbackDistMin**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_OuterRadiusMin** to work as intended.
+*  **CPR_FallbackDistMin**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_InnerRadiusMid** to work as intended.
 *  **CPR_FallbackDistMax**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_FallbackDistMin** to work as intended.
 
 The formula to comput the real fallback distance is as following:
@@ -87,5 +87,5 @@ A convenience way to set and test CPR pathing data for npc during gameplay is by
 
 To run the batch file, simply selcet an npc in the console then enter command like this:
 ```
-bat ""MaxsuCPR_Enable.ini"
+bat "MaxsuCPR_Enable.ini"
 ```
