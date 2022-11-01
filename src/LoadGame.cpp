@@ -2,7 +2,6 @@
 #include "AdvanceRadius_Hook.h"
 #include "Backoff_Hook.h"
 #include "Circling_Hook.h"
-#include "ConsoleCommands.h"
 #include "Fallback_Hook.h"
 
 namespace CombatPathing
@@ -10,7 +9,6 @@ namespace CombatPathing
 	void EventCallback(SKSE::MessagingInterface::Message* msg)
 	{
 		if (msg->type == SKSE::MessagingInterface::kPostLoad) {
-			ConsoleCommands::Register();
 
 			AdvanceRadiusHook::Install();
 
