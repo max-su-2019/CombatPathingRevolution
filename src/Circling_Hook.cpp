@@ -14,7 +14,7 @@ namespace CombatPathing
 				if (a_actor->GetGraphVariableFloat(CIRCLING_MIN_GV, circlingDistMin) && a_actor->GetGraphVariableFloat(CIRCLING_MAX_GV, circlingDistMax)) {
 					static auto GetEquippementRange = [](RE::CombatInventory* a_inv) -> float {
 						if (a_inv) {
-							return a_inv->maximumRange;
+							return a_inv->optimalRange;
 						}
 
 						return 0.f;
