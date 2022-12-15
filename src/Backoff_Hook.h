@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DKUtil/Hook.hpp"
+#include "RE/CombatBehaviorTreeNode.h"
 
 namespace CombatPathing
 {
@@ -40,15 +41,6 @@ namespace CombatPathing
 
 	class BackoffChanceHook
 	{
-		struct TreeCtors_extradata
-		{
-			void* func1;
-			void* func2;
-		};
-
-		class CombatBehaviorTreeNode;
-		using NodeArray = RE::BSTArray<CombatBehaviorTreeNode*>;
-
 	public:
 		static void InstallHook()
 		{
@@ -61,7 +53,7 @@ namespace CombatPathing
 		}
 
 	private:
-		static NodeArray& WrapToRandomNode(NodeArray& a_array, const char* a_name, TreeCtors_extradata* a_extradata, CombatBehaviorTreeNode* a_node);
+		static RE::NodeArray& WrapToRandomNode(RE::NodeArray& a_array, const char* a_name, RE::TreeCtors_extradata* a_extradata, RE::CombatBehaviorTreeNode* a_node);
 
 		static inline REL::Relocation<decltype(WrapToRandomNode)> _WrapToRandomNode;
 	};

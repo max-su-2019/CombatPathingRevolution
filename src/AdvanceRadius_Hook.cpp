@@ -1,5 +1,5 @@
 #include "AdvanceRadius_Hook.h"
-#include "Functions.h"
+#include "Util.h"
 
 namespace CombatPathing
 {

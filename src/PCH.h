@@ -15,8 +15,8 @@
 #include <cstdarg>
 #include <cstddef>
 #include <cstdint>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <cuchar>
@@ -48,8 +48,8 @@
 #include <future>
 #include <initializer_list>
 #include <iomanip>
-#include <iosfwd>
 #include <ios>
+#include <iosfwd>
 #include <iostream>
 #include <istream>
 #include <iterator>
@@ -68,8 +68,8 @@
 #include <queue>
 #include <random>
 #include <ranges>
-#include <regex>
 #include <ratio>
+#include <regex>
 #include <scoped_allocator>
 #include <semaphore>
 #include <set>
@@ -86,9 +86,9 @@
 #include <system_error>
 #include <thread>
 #include <tuple>
+#include <type_traits>
 #include <typeindex>
 #include <typeinfo>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -97,15 +97,18 @@
 #include <vector>
 #include <version>
 
+#include "effolkronium/random.hpp"
+using Random = effolkronium::random_static;
+
 // clib
 #include <RE/Skyrim.h>
-#include <SKSE/SKSE.h>
 #include <REL/Relocation.h>
+#include <SKSE/SKSE.h>
 
 // winnt
+#include <Psapi.h>
 #include <ShlObj_core.h>
 #include <Windows.h>
-#include <Psapi.h>
 
 using namespace std::literals;
 using namespace REL::literals;
@@ -116,5 +119,12 @@ using namespace REL::literals;
 // DKUtil
 #include "DKUtil/Logger.hpp"
 
+template <int id, typename T, typename... Args>
+T _generic_foo(Args... args)
+{
+	using func_t = T(Args...);
+	REL::Relocation<func_t> func{ REL::ID(id) };
+	return func(std::forward<Args>(args)...);
+}
 
 #define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)

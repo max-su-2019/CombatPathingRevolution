@@ -4,6 +4,7 @@
     "description":  "",
     "license":  "MIT",
     "dependencies":  [
+						 "effolkronium-random",
                          "spdlog"
                      ],
     "features":  {

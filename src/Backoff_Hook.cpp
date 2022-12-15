@@ -18,7 +18,7 @@ namespace CombatPathing
 		return BackoffMinDistMultSettings ? BackoffMinDistMultSettings->GetFloat() : 0.75f;
 	}
 
-	BackoffChanceHook::NodeArray& BackoffChanceHook::WrapToRandomNode(NodeArray& a_array, const char* a_name, TreeCtors_extradata* a_extradata, CombatBehaviorTreeNode* a_node)
+	RE::NodeArray& BackoffChanceHook::WrapToRandomNode(RE::NodeArray& a_array, const char* a_name, RE::TreeCtors_extradata* a_extradata, RE::CombatBehaviorTreeNode* a_node)
 	{
 		static auto RecalculateBackoffChance = +[](RE::Actor* a_actor) -> float {
 			bool enablebackoff;

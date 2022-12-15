@@ -9,18 +9,18 @@ namespace CombatPathing
 	void EventCallback(SKSE::MessagingInterface::Message* msg)
 	{
 		if (msg->type == SKSE::MessagingInterface::kPostLoad) {
-
 			AdvanceRadiusHook::Install();
 
 			BackoffStartHook::InstallHook();
 			BackoffChanceHook::InstallHook();
 
-			CirclingHook::InstallHook();
+			CirclingChanceHook::InstallHook();
+			AdvanceToCircleHook::InstallHook();
 
-			FallbackStartHook::InstallHook();
-			FallbackUpdateHook::InstallHook();
-
-			//Hook_GetOffensive::install();
+			FallbackDistanceHook1::InstallHook();
+			FallbackDistanceHook2::InstallHook();
+			FallbackWaitTimeHook1::InstallHook();
+			FallbackWaitTimeHook2::InstallHook();
 		}
 	}
 
