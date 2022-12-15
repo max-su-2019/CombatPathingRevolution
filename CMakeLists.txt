@@ -13,7 +13,7 @@ include(GNUInstallDirs)
 # info
 project(
 	CombatPathingRevolution
-	VERSION 0.1.3
+	VERSION 0.1.4
 	LANGUAGES CXX
 )
 

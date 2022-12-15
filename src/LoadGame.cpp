@@ -16,6 +16,9 @@ namespace CombatPathing
 
 			CirclingChanceHook::InstallHook();
 			AdvanceToCircleHook::InstallHook();
+			CircleAngleHook1::InstallHook();
+			CircleAngleHook2::InstallHook();
+			CircleAngleHook3::InstallHook();
 
 			FallbackDistanceHook1::InstallHook();
 			FallbackDistanceHook2::InstallHook();
