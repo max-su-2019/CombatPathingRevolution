@@ -3,6 +3,7 @@
 #include "Backoff_Hook.h"
 #include "Circling_Hook.h"
 #include "Fallback_Hook.h"
+#include "PayloadInterpreter/hooks.h"
 
 namespace CombatPathing
 {
@@ -24,6 +25,8 @@ namespace CombatPathing
 			FallbackDistanceHook2::InstallHook();
 			FallbackWaitTimeHook1::InstallHook();
 			FallbackWaitTimeHook2::InstallHook();
+
+			Hooks::hook_animationEvent::install();
 		}
 	}
 
