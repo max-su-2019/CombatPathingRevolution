@@ -23,10 +23,13 @@ namespace CombatPathing
 			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling) {
 				float circlingDistMin, circlingDistMax;
 				if (me->GetGraphVariableFloat(CIRCLING_MIN_DIST_GV, circlingDistMin) && me->GetGraphVariableFloat(CIRCLING_MAX_DIST_GV, circlingDistMax)) {
-					auto weaponRange = GetEquippementRange(me->combatController->inventory);
+					auto optimalWeapRange = GetEquippementRange(me->combatController->inventory);
+					auto maxWeapRange = GetEquippementRange(me->combatController->inventory, true);
 					auto distance = me->GetPosition().GetDistance(he->GetPosition()) - he->GetBoundRadius();
+					circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
+					circlingDistMax += maxWeapRange;
 
-					if (distance < circlingDistMin + weaponRange || distance > circlingDistMax)
+					if (distance < circlingDistMin || distance > circlingDistMax)
 						return std::max(0.1f, a_minChance);  //The chance must be a bit greater than zero, ohterwise NPC would be stucked by barriers.
 				}
 			}
@@ -59,9 +62,12 @@ namespace CombatPathing
 			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
 				float circlingDistMin, circlingDistMax;
 				if (me->GetGraphVariableFloat(CIRCLING_MIN_DIST_GV, circlingDistMin) && me->GetGraphVariableFloat(CIRCLING_MAX_DIST_GV, circlingDistMax)) {
-					auto weaponRange = GetEquippementRange(me->combatController->inventory);
+					auto optimalWeapRange = GetEquippementRange(me->combatController->inventory);
+					auto maxWeapRange = GetEquippementRange(me->combatController->inventory, true);
 					auto distance = me->GetPosition().GetDistance(he->GetPosition()) - he->GetBoundRadius();
-					if (distance >= circlingDistMin + weaponRange && distance <= circlingDistMax + weaponRange) {
+					circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
+					circlingDistMax += maxWeapRange;
+					if (distance >= circlingDistMin && distance <= circlingDistMax) {
 						auto chance = GetCircleChance(me);
 						return Random::get(0.f, 1.0f) <= chance ? true : false;
 					}

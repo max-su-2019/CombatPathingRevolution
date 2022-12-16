@@ -7,6 +7,7 @@ namespace CombatPathing
 {
 	using namespace DKUtil::Alias;
 
+	//Disable circling when the combat target not within circling distance range.
 	class CirclingChanceHook
 	{
 	public:

@@ -35,10 +35,10 @@ namespace CombatPathing
 		return false;
 	}
 
-	float GetEquippementRange(RE::CombatInventory* a_inv)
+	float GetEquippementRange(RE::CombatInventory* a_inv, bool a_full)
 	{
 		if (a_inv) {
-			return a_inv->optimalRange;
+			return a_full ? a_inv->maximumRange : a_inv->optimalRange;
 		}
 
 		return 0.f;
