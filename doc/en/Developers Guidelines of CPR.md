@@ -15,7 +15,7 @@ One thing have to mention before we go detail is that **you don't need to consid
 Below are the actions that NPC would perform during combat pathing and the CPR graph variables could be used to control these actions:
 
 ### Advance
-NPC would sprinting forward to approach the current combat target if distance to the target is beyond its **combat advance outer radius**, while the distance is between the **combat advance outer radius** and **combat advance inner radius**, npc would then advances in normal speed to approach the target.
+NPC would sprinting forward to approach the current combat target if distance to the target is beyond its **combat advance outer radius**, while the distance is between the **combat advance outer radius** and **combat advance inner radius**, npc would then advances at normal speed to approach the target.
 Here are the graph variables that can be used to control this action:
 * **CPR_EnableAdvanceRadius**: boolean variable, set the value to true to enable the override of vanilla combat advance radius data with CPR data, reset the value to false to keep everything working as vanilla.
 *  **CPR_InnerRadiusMin**: float variable, its value represents the minimum inner radius value that the actor identify during pathing. The variable value should be greater than zero.
