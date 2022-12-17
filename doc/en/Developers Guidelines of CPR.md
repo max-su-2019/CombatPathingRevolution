@@ -25,7 +25,7 @@ Here are the graph variables that can be used to control this action:
 *  **CPR_OuterRadiusMid**: float variable, it value represents the medimum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMid** and **CPR_OuterRadiusMin**.
 *  **CPR_OuterRadiusMax**: float variable, it value represents the maximum inner radius value that the actor identify during pathing. The variable value should be greater than **CPR_InnerRadiusMax** and **CPR_OuterRadiusMid**.  
 
-The formula to get the real combat advance radius value is as following:
+The formula to get the real in time combat advance radius value is as following:
 
 * If NPC want make offensive:
 ```
