@@ -68,14 +68,14 @@ Be caution that npc won't perform circling if it has not **Close Range - Dueling
 NPC could perform fallback during close range combat, how far the distance the npc would moving during a fallback is decided by its combat style fallback mult and CPR graph variables below:  
 * **CPR_EnableFallback**: boolean variable, set the value to true to enable the override of vanilla combat fallback data with CPR data, reset the value to false to keep everything working as vanilla.
 *  **CPR_FallbackDistMin**: float variable, its value represents the minimum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_InnerRadiusMid** to work as intended.
-*  **CPR_FallbackDistMax**: float variable, its value represents the maximum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_FallbackDistMin** to work as intended.  
+*  **CPR_FallbackDistMax**: float variable, its value represents the maximum fallback distance that the actor identify during fallback. The variable value should be at least greater than **CPR_FallbackDistMin** to work as intended.<br/>    
 The formula to comput the actual fallback distance in game is as following:  
 ```
 FallbackDistance = CPR_FallbackDistMin + (CPR_FallbackDistMax - CPR_FallbackDistMin) * CombatStyleFallbackMult 
 ``` 
 
 *  **CPR_FallbackWaitTimeMin**: float variable, its value represents the minimum waiting time the npc would  waits in place after performed a fallback. ThIS variable value should be at least greater than zero to work as intended.
-*  **CPR_FallbackWaitTimeMax**: float variable, its value represents the maximum waiting time the npc would  waits in place after performed a fallback. ThIS variable value should be at least greater than **CPR_FallbackWaitTimeMin** to work as intended.
+*  **CPR_FallbackWaitTimeMax**: float variable, its value represents the maximum waiting time the npc would  waits in place after performed a fallback. ThIS variable value should be at least greater than **CPR_FallbackWaitTimeMin** to work as intended.<br/>   
 The formula to comput the actual fallback wait time in game is as following:  
 ```
 FallbackWaitTime = CPR_FallbackWaitTimeMin + (CPR_FallbackWaitTimeMax - CPR_FallbackWaitTimeMin) * CombatStyleFallbackMult 
