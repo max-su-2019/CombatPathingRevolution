@@ -192,7 +192,7 @@ Using annotations is a suitable method to implement if your CPR pathing dataset 
     SetAnimGraphVar	CPR_EnableFallback 0
     ```
 
-Animations that could be used to active or disable these CPR instructions for a moveset are those weapon draw/sheathe animations. The "_CPR Patched Animations Pack_" I patched did so. Here are the name of those weapon draw/sheathe animations you can use for:
+Animations that could be used to active or disable these CPR instructions for a moveset could be those weapon draw/sheathe animations. The "_CPR Patched Animations Pack_" I patched did so. Here are the name of those weapon draw/sheathe animations you can use for:
 ```
 1hm_equip.hkx - One handed sword draw
 1hm_unequip.hkx - One handed sword sheathe
