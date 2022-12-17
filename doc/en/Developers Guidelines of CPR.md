@@ -8,9 +8,9 @@ This article would instructs you on how to utilize **Combat Pathing Revolution**
 
 ## Descriptions of Variables
 ---  
-In order to implement a dynamic and highly customizable AI pathing feature, CPR using graph variables (A.K.A [Animation Variables](https://www.creationkit.com/index.php?title=List_of_Animation_Variables)) to represents the AI data that using to control the melee combat pathing AI for npc during the combat gameplay. CPR using these graph variables to override those core data that controled the AI pathing, therefore with CPR, each npc in game now could has a completely unique pathing dataset as it owned which is a great different to the vanilla "single global value assign to everyone".  
+In order to implement a dynamic and highly customizable AI pathing feature, CPR using graph variables (A.K.A [Animation Variables](https://www.creationkit.com/index.php?title=List_of_Animation_Variables)) to represents the AI data that using to control the melee combat pathing AI for npc during the combat gameplay. CPR using these graph variables to override those core data that controlled the AI pathing, therefore with CPR, each npc in game now could has a completely unique pathing dataset as it owned which is a great different to the vanilla "single global value assign to everyone".  
 
-One thing have to mention before we go detail is that **you don't need to consider the weapon length distance when assiging all of those CPR distance variables**, the weapon length will be added automactilly from skse plugin end when computing the final result.
+Before we go detail, one thing have to mention is that **you don't need to consider the weapon length distance when assiging all of those CPR distance variables**, the weapon length will be added automactilly from skse plugin end when computing the final result.
 
 Below are the actions that NPC would perform during combat pathing and the CPR graph variables could be used to control these actions:
 
@@ -88,7 +88,8 @@ Be caution that npc would won't perform fallback if it has not **Close Range - D
 
 ## Debugging In Game
 ---
-A convenience way to set and test CPR pathing data for npc during gameplay is by using [console command batch files](https://skyrimcommands.com/command/bat). CPR has provided three command batch files to satisfy the demand of debugging:
+To debug combat pathing AI, firstly be sure that the cell you are in has proper navmesh created. AI would not pathing correctly in the cell that without navmesh even in vanilla.<br/> 
+A convenience way to set and test CPR pathing data for npc during gameplay is using [console command batch files](https://skyrimcommands.com/command/bat). CPR has provided three command batch files to satisfy the demand of debugging:
 * "MaxsuCPR_Enable.ini": Run this batch file would enable and set up CPR pathing data for an npc, and override its vanilla combat pathing data with CPR graph variable.
 *  "MaxsuCPR_Disable.ini": Run this batch file would disable CPR pathing data effect on an npc, and restore its combat pathing back to vanilla.
 *  "MaxsuCPR_Display.ini": Run this batch file would display all of the CPR graph variables value on the console screen.
