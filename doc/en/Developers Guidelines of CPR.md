@@ -192,22 +192,22 @@ Using annotations is a suitable method to implement if your CPR pathing dataset 
     SetAnimGraphVar	CPR_EnableFallback 0
     ```
 
-Animations that could be used to active or disable these CPR instructions for a moveset are those weapon draw/sheath animations. The "_CPR Patched Animations Pack_" I patched did so. Here are the name of those weapon draw/sheath animations you can use for:
+Animations that could be used to active or disable these CPR instructions for a moveset are those weapon draw/sheathe animations. The "_CPR Patched Animations Pack_" I patched did so. Here are the name of those weapon draw/sheathe animations you can use for:
 ```
 1hm_equip.hkx - One handed sword draw
-1hm_unequip.hkx - One handed sword sheath
+1hm_unequip.hkx - One handed sword sheathe
 dag_equip.hkx - Dagger draw
-dag_unequip.hkx - Dagger sheath
+dag_unequip.hkx - Dagger sheathe
 axe_equip.hkx - One handed axe draw
-axe_unequip.hkx - One handed axe sheath
+axe_unequip.hkx - One handed axe sheathe
 mac_equip.hkx - Mace draw
-mac_unequip.hkx - Mace sheath
+mac_unequip.hkx - Mace sheathe
 h2h_equip.hkx - Fits draw
-h2h_unequip.hkx - Fits sheath
+h2h_unequip.hkx - Fits sheathe
 2hc_equip.hkx - Two handed sword draw
-2hc_unequip.hkx - Two handed sword sheath
+2hc_unequip.hkx - Two handed sword sheathe
 2hw_equip.hkx - Two handed warhammer/battleaxe draw
-2hw_unequip.hkx - Two handed warhammer/battleaxe sheath
+2hw_unequip.hkx - Two handed warhammer/battleaxe sheathe
 ```
 
 Simply annotate your `CPR.EnableAdvance`, `CPR.EnableBackoff`, `CPR.EnableCircling`, `CPR.EnableFallback` instructions inside the weapon equip hkx file, while annotate the `CPR.DisableAll` inside the wepon unequip hkx file.
