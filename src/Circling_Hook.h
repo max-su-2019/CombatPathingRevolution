@@ -18,7 +18,7 @@ namespace CombatPathing
 
 			REL::Relocation<std::uintptr_t> Base{ REL::RelocationID(49720, 50647) };
 
-			_GetCirclingChance = trampoline.write_branch<5>(Base.address() + REL::Relocate(0x22, 0x2c), GetCirclingChance);
+			_GetCirclingChance = trampoline.write_branch<5>(Base.address() + REL::Relocate(0x22, 0x2C), GetCirclingChance);
 			INFO("Hook Circling!");
 		}
 
@@ -58,8 +58,8 @@ namespace CombatPathing
 			SKSE::AllocTrampoline(1 << 4);
 			auto& trampoline = SKSE::GetTrampoline();
 
-			REL::Relocation<std::uintptr_t> Base{ REL::ID(49721) };  //sub_1408450A0
-			_RescaleCircleAngle = trampoline.write_call<5>(Base.address() + 0x3A, RescaleCircleAngle);
+			REL::Relocation<std::uintptr_t> Base{ REL::RelocationID(49721, 50648) };  //sub_1408450A0
+			_RescaleCircleAngle = trampoline.write_call<5>(Base.address() + REL::Relocate(0x3A, 0x44), RescaleCircleAngle);
 			INFO("{} Done!", __FUNCTION__);
 		}
 
@@ -73,14 +73,33 @@ namespace CombatPathing
 	{
 		static float GetMinCircleAngle();
 
-		static constexpr std::uintptr_t FuncID = 49721;  //1408450A0
-		static constexpr std::ptrdiff_t OffsetL = 0x3F;  //1408450DF
-		static constexpr std::ptrdiff_t OffsetH = 0x47;  //1408450E7
+		// 1-6-640-0 @ 0x8824E0
+		static constexpr std::uintptr_t AE_FuncID = 50648;
+		static constexpr std::ptrdiff_t AE_OffsetL = 0x4C;
+		static constexpr std::ptrdiff_t AE_OffsetH = 0x55;
+		// 1-5-97-0 @ 0x8450A0
+		static constexpr std::uintptr_t SE_FuncID = 49721;
+		static constexpr std::ptrdiff_t SE_OffsetL = 0x3F;
+		static constexpr std::ptrdiff_t SE_OffsetH = 0x47;
 
-		static constexpr Patch RelocateReturn{
-			// movss xmm7, xmm0
-			"\xF3\x0F\x10\xF8",
-			4
+		static constexpr Patch AE_Epilog{
+			"\xF3\x44\x0F\x10\xC0",  // movss xmm8, xmm0
+			5
+		};
+
+		static constexpr Patch SE_Prolog{
+			"\x9C"                   // pushf
+			"\x48\x83\xEC\x10"       // sub rsp, 0x10
+			"\xF3\x0F\x7F\x04\x24",  // push xmm0
+			10
+		};
+
+		static constexpr Patch SE_Epilog{
+			"\xF3\x0F\x6F\x34\x24"  // pop xmm6 < xmm0
+			"\x48\x83\xC4\x10"      // add rsp, 0x10
+			"\x9D"                  // popf
+			"\xF3\x0F\x10\xF8",     //movss xmm7, xmm0
+			14
 		};
 
 	public:
@@ -88,14 +107,12 @@ namespace CombatPathing
 		{
 			SKSE::AllocTrampoline(1 << 6);
 
-			auto funcAddr = REL::ID(FuncID).address();
-
 			auto handle = DKUtil::Hook::AddCaveHook(
-				funcAddr,
-				{ OffsetL, OffsetH },
+				REL::RelocationID(SE_FuncID, AE_FuncID).address(),
+				REL::Relocate(std::make_pair(SE_OffsetL, SE_OffsetH), std::make_pair(AE_OffsetL, AE_OffsetH)),
 				FUNC_INFO(GetMinCircleAngle),
-				nullptr,
-				&RelocateReturn,
+				DKUtil::Hook::RuntimePatch(nullptr, &SE_Prolog),
+				DKUtil::Hook::RuntimePatch(&AE_Epilog, &SE_Epilog),
 				DKUtil::Hook::HookFlag::kSkipNOP);
 
 			handle->Enable();
@@ -104,6 +121,7 @@ namespace CombatPathing
 		}
 	};
 
+	// TODO
 	class CircleAngleHook3
 	{
 		static float GetMaxCircleAngle();

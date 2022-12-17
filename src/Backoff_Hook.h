@@ -11,25 +11,30 @@ namespace CombatPathing
 	{
 		static float RescaleBackoffMinDistanceMult(RE::Actor* a_me, RE::Actor* a_he);
 
-		static constexpr std::uintptr_t FuncID = 46724;   //1407D8C90
-		static constexpr std::ptrdiff_t OffsetL = 0x201;  //1407D8E91
-		static constexpr std::ptrdiff_t OffsetH = 0x209;  //1407D8E99
+		// 1-6-640-0 @ 0x816350
+		static constexpr std::uintptr_t AE_FuncID = 47920;
+		static constexpr std::ptrdiff_t AE_OffsetL = 0x1BE;
+		static constexpr std::ptrdiff_t AE_OffsetH = 0x1C6;
+		// 1-5-97-0 @ 0x7D8C90
+		static constexpr std::uintptr_t SE_FuncID = 46724;
+		static constexpr std::ptrdiff_t SE_OffsetL = 0x201;
+		static constexpr std::ptrdiff_t SE_OffsetH = 0x209;
 
 	public:
 		static void InstallHook()
 		{
 			SKSE::AllocTrampoline(1 << 6);
 
-			auto funcAddr = REL::ID(FuncID).address();
+			auto funcAddr = REL::ID(SE_FuncID).address();
 
 			Patch RelocatePointer{
-				AsPointer(funcAddr + 0x1b1),  //1407D8E41
+				AsPointer(funcAddr + REL::Relocate(0x1B1, 0x173)),  //1407D8E41
 				6
 			};
 
 			auto handle = DKUtil::Hook::AddCaveHook(
-				funcAddr,
-				{ OffsetL, OffsetH },
+				REL::RelocationID(SE_FuncID, AE_FuncID).address(),
+				REL::Relocate(std::make_pair(SE_OffsetL, SE_OffsetH), std::make_pair(AE_OffsetL, AE_OffsetH)),
 				FUNC_INFO(RescaleBackoffMinDistanceMult),
 				&RelocatePointer);
 
@@ -47,8 +52,8 @@ namespace CombatPathing
 			SKSE::AllocTrampoline(1 << 4);
 			auto& trampoline = SKSE::GetTrampoline();
 
-			REL::Relocation<std::uintptr_t> Base{ REL::ID(46731) };  //sub_1407D97D0
-			_WrapToRandomNode = trampoline.write_call<5>(Base.address() + 0xD7, WrapToRandomNode);
+			REL::Relocation<std::uintptr_t> Base{ REL::RelocationID(46731, 47928) };  // 7D97D0, 816E40
+			_WrapToRandomNode = trampoline.write_call<5>(Base.address() + REL::Relocate(0xD7, 0x1F0), WrapToRandomNode);
 			INFO("Hook BackoffChance!");
 		}
 

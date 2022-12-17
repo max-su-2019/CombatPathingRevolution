@@ -14,7 +14,7 @@ namespace CombatPathing
 			float fallbackDistMin, fallbackDistMax;
 
 			if (a_actor->GetGraphVariableFloat(FALLBACK_DIST_MIN_GV, fallbackDistMin) && a_actor->GetGraphVariableFloat(FALLBACK_DIST_MAX_GV, fallbackDistMax)) {
-				auto fallbackMult = a_actor->combatController->combatStyle->closeRangeData.fallbackMult;
+				auto fallbackMult = a_actor->GetActorRuntimeData().combatController->combatStyle->closeRangeData.fallbackMult;
 				auto FallbackDistance = RescaleValue(fallbackMult, fallbackDistMin, fallbackDistMax);
 				auto diameter = a_actor->GetBoundRadius() * 2.0f;
 
@@ -48,7 +48,7 @@ namespace CombatPathing
 			float fallbackWaitTimeMin, fallbackWaitTimeMax;
 
 			if (a_actor->GetGraphVariableFloat(FALLBACK_TIME_MIN_GV, fallbackWaitTimeMin) && a_actor->GetGraphVariableFloat(FALLBACK_TIME_MAX_GV, fallbackWaitTimeMax)) {
-				auto fallbackMult = a_actor->combatController->combatStyle->closeRangeData.fallbackMult;
+				auto fallbackMult = a_actor->GetActorRuntimeData().combatController->combatStyle->closeRangeData.fallbackMult;
 				return RescaleValue(fallbackMult, fallbackWaitTimeMin, fallbackWaitTimeMax);
 			}
 		}
