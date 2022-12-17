@@ -11,7 +11,7 @@ namespace CombatPathing
 		if (!a_actor)
 			return false;
 
-		auto combatCtrl = a_actor->combatController;
+		auto combatCtrl = a_actor->GetActorRuntimeData().combatController;
 		auto CombatInv = combatCtrl ? combatCtrl->inventory : nullptr;
 		if (CombatInv) {
 			for (const auto item : CombatInv->equippedItems) {

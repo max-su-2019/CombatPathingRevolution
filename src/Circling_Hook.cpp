@@ -18,19 +18,22 @@ namespace CombatPathing
 	{
 		auto me = CombatAI__get_me();
 		auto he = CombatAI__get_he();
-		if (me && he && me->combatController && me->combatController->combatStyle) {
-			bool enableCircling;
-			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling) {
-				float circlingDistMin, circlingDistMax;
-				if (me->GetGraphVariableFloat(CIRCLING_MIN_DIST_GV, circlingDistMin) && me->GetGraphVariableFloat(CIRCLING_MAX_DIST_GV, circlingDistMax)) {
-					auto optimalWeapRange = GetEquippementRange(me->combatController->inventory);
-					auto maxWeapRange = GetEquippementRange(me->combatController->inventory, true);
-					auto distance = me->GetPosition().GetDistance(he->GetPosition()) - he->GetBoundRadius();
-					circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
-					circlingDistMax += maxWeapRange;
+		if (me && he) {
+			auto& rtm = me->GetActorRuntimeData();
+			if (rtm.combatController && rtm.combatController->combatStyle) {
+				bool enableCircling;
+				if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling) {
+					float circlingDistMin, circlingDistMax;
+					if (me->GetGraphVariableFloat(CIRCLING_MIN_DIST_GV, circlingDistMin) && me->GetGraphVariableFloat(CIRCLING_MAX_DIST_GV, circlingDistMax)) {
+						auto optimalWeapRange = GetEquippementRange(rtm.combatController->inventory);
+						auto maxWeapRange = GetEquippementRange(rtm.combatController->inventory, true);
+						auto distance = me->GetPosition().GetDistance(he->GetPosition()) - he->GetBoundRadius();
+						circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
+						circlingDistMax += maxWeapRange;
 
-					if (distance < circlingDistMin || distance > circlingDistMax)
-						return std::max(0.1f, a_minChance);  //The chance must be a bit greater than zero, ohterwise NPC would be stucked by barriers.
+						if (distance < circlingDistMin || distance > circlingDistMax)
+							return std::max(0.1f, a_minChance);  //The chance must be a bit greater than zero, ohterwise NPC would be stucked by barriers.
+					}
 				}
 			}
 		}
@@ -57,19 +60,22 @@ namespace CombatPathing
 	{
 		auto me = CombatAI__get_me();
 		auto he = CombatAI__get_he();
-		if (me && he && me->combatController && me->combatController->combatStyle) {
-			bool enableCircling;
-			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
-				float circlingDistMin, circlingDistMax;
-				if (me->GetGraphVariableFloat(CIRCLING_MIN_DIST_GV, circlingDistMin) && me->GetGraphVariableFloat(CIRCLING_MAX_DIST_GV, circlingDistMax)) {
-					auto optimalWeapRange = GetEquippementRange(me->combatController->inventory);
-					auto maxWeapRange = GetEquippementRange(me->combatController->inventory, true);
-					auto distance = me->GetPosition().GetDistance(he->GetPosition()) - he->GetBoundRadius();
-					circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
-					circlingDistMax += maxWeapRange;
-					if (distance >= circlingDistMin && distance <= circlingDistMax) {
-						auto chance = GetCircleChance(me);
-						return Random::get(0.f, 1.0f) <= chance ? true : false;
+		if (me && he) {
+			auto& rtm = me->GetActorRuntimeData();
+			if (rtm.combatController && rtm.combatController->combatStyle) {
+				bool enableCircling;
+				if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
+					float circlingDistMin, circlingDistMax;
+					if (me->GetGraphVariableFloat(CIRCLING_MIN_DIST_GV, circlingDistMin) && me->GetGraphVariableFloat(CIRCLING_MAX_DIST_GV, circlingDistMax)) {
+						auto optimalWeapRange = GetEquippementRange(rtm.combatController->inventory);
+						auto maxWeapRange = GetEquippementRange(rtm.combatController->inventory, true);
+						auto distance = me->GetPosition().GetDistance(he->GetPosition()) - he->GetBoundRadius();
+						circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
+						circlingDistMax += maxWeapRange;
+						if (distance >= circlingDistMin && distance <= circlingDistMax) {
+							auto chance = GetCircleChance(me);
+							return Random::get(0.f, 1.0f) <= chance ? true : false;
+						}
 					}
 				}
 			}
@@ -81,12 +87,15 @@ namespace CombatPathing
 	float CircleAngleHook1::RescaleCircleAngle(const float a_circleMult, const float a_minAnlge, const float a_maxAngle)
 	{
 		auto me = CombatAI__get_me();
-		if (me && me->combatController && me->combatController->combatStyle) {
-			bool enableCircling;
-			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
-				float circlingAngleMin, circlingAngleMax;
-				if (me->GetGraphVariableFloat(CIRCLING_MIN_ANG_GV, circlingAngleMin) && me->GetGraphVariableFloat(CIRCLING_MAX_ANG_GV, circlingAngleMax)) {
-					return _RescaleCircleAngle(a_circleMult, circlingAngleMin, circlingAngleMax);
+		if (me) {
+			auto& rtm = me->GetActorRuntimeData();
+			if (rtm.combatController && rtm.combatController->combatStyle) {
+				bool enableCircling;
+				if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
+					float circlingAngleMin, circlingAngleMax;
+					if (me->GetGraphVariableFloat(CIRCLING_MIN_ANG_GV, circlingAngleMin) && me->GetGraphVariableFloat(CIRCLING_MAX_ANG_GV, circlingAngleMax)) {
+						return _RescaleCircleAngle(a_circleMult, circlingAngleMin, circlingAngleMax);
+					}
 				}
 			}
 		}
@@ -97,12 +106,15 @@ namespace CombatPathing
 	float CircleAngleHook2::GetMinCircleAngle()
 	{
 		auto me = CombatAI__get_me();
-		if (me && me->combatController && me->combatController->combatStyle) {
-			bool enableCircling;
-			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
-				float circlingAngleMin;
-				if (me->GetGraphVariableFloat(CIRCLING_MIN_ANG_GV, circlingAngleMin))
-					return circlingAngleMin;
+		if (me) {
+			auto& rtm = me->GetActorRuntimeData();
+			if (rtm.combatController && rtm.combatController->combatStyle) {
+				bool enableCircling;
+				if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
+					float circlingAngleMin;
+					if (me->GetGraphVariableFloat(CIRCLING_MIN_ANG_GV, circlingAngleMin))
+						return circlingAngleMin;
+				}
 			}
 		}
 
@@ -116,12 +128,15 @@ namespace CombatPathing
 	float CircleAngleHook3::GetMaxCircleAngle()
 	{
 		auto me = CombatAI__get_me();
-		if (me && me->combatController && me->combatController->combatStyle) {
-			bool enableCircling;
-			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
-				float circlingAngleMax;
-				if (me->GetGraphVariableFloat(CIRCLING_MAX_ANG_GV, circlingAngleMax))
-					return circlingAngleMax;
+		if (me) {
+			auto& rtm = me->GetActorRuntimeData();
+			if (rtm.combatController && rtm.combatController->combatStyle) {
+				bool enableCircling;
+				if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
+					float circlingAngleMax;
+					if (me->GetGraphVariableFloat(CIRCLING_MAX_ANG_GV, circlingAngleMax))
+						return circlingAngleMax;
+				}
 			}
 		}
 

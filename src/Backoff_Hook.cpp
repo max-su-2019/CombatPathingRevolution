@@ -37,10 +37,10 @@ namespace CombatPathing
 			a_extradata->func2 = nullptr;
 
 			static REL::Relocation<decltype(WrapToRandomNode)> WrapToRandomNode_New{ REL::ID(46641) };
-			return WrapToRandomNode_New(a_array, a_name, a_extradata, a_node);
+			return a_array = WrapToRandomNode_New(a_array, a_name, a_extradata, a_node); // ae change : array value is changed in-place instead of returning
 		} else {
 			ERROR("GetBackoffChance Redirect fail!");
-			return _WrapToRandomNode(a_array, a_name, a_extradata, a_node);
+			return a_array = _WrapToRandomNode(a_array, a_name, a_extradata, a_node);  // ae change : array value is changed in-place instead of returning
 		}
 	}
 

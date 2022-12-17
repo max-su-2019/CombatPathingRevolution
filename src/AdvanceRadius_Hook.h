@@ -7,7 +7,7 @@ namespace CombatPathing
 
 	class AdvanceRadiusHook
 	{
-		// 1-6-353-0 @ 0x870CF0
+		// 1-6-640-0 @ 0x882280
 		static inline constexpr std::uint64_t AE_FuncID = 50643;
 		// 1-5-97-0 @ 0x844E40
 		static inline constexpr std::uint64_t SE_FuncID = 49716;
