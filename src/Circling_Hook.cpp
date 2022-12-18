@@ -14,10 +14,8 @@ namespace CombatPathing
 		return _generic_foo<49720, float, RE::Character*>(a_character);
 	}
 
-	float CirclingChanceHook::GetCirclingChance(const float a_circleMult, const float a_minChance, const float a_maxChance)
+	static bool WithinCricleRange(RE::Character* me, RE::Character* he)
 	{
-		auto me = CombatAI__get_me();
-		auto he = CombatAI__get_he();
 		if (me && he) {
 			auto& rtm = me->GetActorRuntimeData();
 			if (rtm.combatController && rtm.combatController->combatStyle) {
@@ -31,26 +29,36 @@ namespace CombatPathing
 						circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
 						circlingDistMax += maxWeapRange;
 
-						if (distance < circlingDistMin || distance > circlingDistMax)
-							return std::max(0.1f, a_minChance);  //The chance must be a bit greater than zero, ohterwise NPC would be stucked by barriers.
+						return distance >= circlingDistMin && distance <= circlingDistMax;
 					}
 				}
 			}
 		}
+
+		return false;
+	}
+
+	float CirclingChanceHook::GetCirclingChance(const float a_circleMult, const float a_minChance, const float a_maxChance)
+	{
+		auto me = CombatAI__get_me();
+		auto he = CombatAI__get_he();
+
+		if (!WithinCricleRange(me, he))
+			return std::max(0.1f, a_minChance);  //The chance must be a bit greater than zero, ohterwise NPC would be stucked by barriers.
 
 		return _GetCirclingChance(a_circleMult, a_minChance, a_maxChance);
 	}
 
 	RE::NodeArray& AdvanceToCircleHook::PushBackNode(RE::NodeArray& a_master, RE::NodeArray& a_target)
 	{
-		auto nodeCirlce = RE::NodeCloseMovementCircleDistant::createnew();
+		auto nodeCirlce = RE::NodeCloseMovementCircle::createnew();
 		if (nodeCirlce) {
 			NodeArray array;
 			RE::TreeCtors_extradata extraData;
 			extraData.func1 = ShouldCircle;
 			extraData.func2 = nullptr;
 
-			a_master = pushback_parentof(a_master, wrap_to_conditional_2(array, "CPR Circle Distant", &extraData, nodeCirlce));
+			a_master = pushback_parentof(a_master, wrap_to_conditional_2(array, "CPR Circle", &extraData, nodeCirlce));
 		}
 
 		return _PushBackNode(a_master, a_target);
@@ -61,23 +69,9 @@ namespace CombatPathing
 		auto me = CombatAI__get_me();
 		auto he = CombatAI__get_he();
 		if (me && he) {
-			auto& rtm = me->GetActorRuntimeData();
-			if (rtm.combatController && rtm.combatController->combatStyle) {
-				bool enableCircling;
-				if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
-					float circlingDistMin, circlingDistMax;
-					if (me->GetGraphVariableFloat(CIRCLING_MIN_DIST_GV, circlingDistMin) && me->GetGraphVariableFloat(CIRCLING_MAX_DIST_GV, circlingDistMax)) {
-						auto optimalWeapRange = GetEquippementRange(rtm.combatController->inventory);
-						auto maxWeapRange = GetEquippementRange(rtm.combatController->inventory, true);
-						auto distance = me->GetPosition().GetDistance(he->GetPosition()) - he->GetBoundRadius();
-						circlingDistMin += circlingDistMin > 0.f ? optimalWeapRange : 0.f;
-						circlingDistMax += maxWeapRange;
-						if (distance >= circlingDistMin && distance <= circlingDistMax) {
-							auto chance = GetCircleChance(me);
-							return Random::get(0.f, 1.0f) <= chance ? true : false;
-						}
-					}
-				}
+			if (WithinCricleRange(me, he)) {
+				auto chance = GetCircleChance(me);
+				return Random::get(0.f, 1.0f) <= chance ? true : false;
 			}
 		}
 
@@ -146,5 +140,4 @@ namespace CombatPathing
 
 		return 90.f;
 	}
-
 }
