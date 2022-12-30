@@ -1,3 +1,5 @@
+#include "RE/CombatBehaviorController.h"
+#include "RE/CombatBehaviorNodesMovement.h"
 #include "payloadHandler.h"
 
 void CPRHandler::process(RE::Actor* actor, std::vector<std::string_view>* v, FUNCTION f)
@@ -47,6 +49,8 @@ void CPRHandler::enableAdvance(RE::Actor* a_actor, std::vector<std::string_view>
 	a_actor->SetGraphVariableFloat("CPR_OuterRadiusMin", CPR_OuterRadiusMin);
 	a_actor->SetGraphVariableFloat("CPR_OuterRadiusMid", CPR_OuterRadiusMid);
 	a_actor->SetGraphVariableFloat("CPR_OuterRadiusMax", CPR_OuterRadiusMax);
+
+	InterruptActiveAction<RE::NodeCloseMovementAdvance>(a_actor);
 }
 
 void CPRHandler::enableBackoff(RE::Actor* a_actor, std::vector<std::string_view>* v)

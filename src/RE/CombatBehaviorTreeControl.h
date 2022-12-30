@@ -1,5 +1,4 @@
 #pragma once
-#include <cstdint>
 
 namespace RE
 {
@@ -38,20 +37,28 @@ namespace RE
 			switched_to_children
 		};
 
-		char* ptr;
-		unsigned int capacity;
-		unsigned int size_C;
-		ActionStack action_stack;
-		unsigned int size_120;
-		int field_124;
-		AI_Tree_Control_anotherControl another_control;
-		CombatBehaviorTreeNode* cur_node;
-		CombatBehaviorTreeNode* node_another;
-		int mb_notInterrupted;
-		Control_AI_States current_state;
-		char field_150[8];
-		void* unk_158;
+		void Ascend()
+		{
+			return _generic_foo<46229, void, CombatBehaviorTreeControl*>(this);  // 1407C69D0
+		}
+
+		void SetFailed(bool a_fail)
+		{
+			return _generic_foo<46240, void, CombatBehaviorTreeControl*, bool>(this, a_fail);  // 1407C6D30
+		}
+
+		BSTArrayHeapAllocator unk00;                     //00
+		ActionStack action_stack;                        //10
+		unsigned int size_120;                           //120
+		int field_124;                                   //124
+		AI_Tree_Control_anotherControl another_control;  //128
+		CombatBehaviorTreeNode* cur_node;                //138
+		CombatBehaviorTreeNode* node_another;            //140
+		bool shouldInterrupt;                            //148
+		Control_AI_States current_state;                 //14C
+		char field_150[8];                               //150
+		CombatController* master_controller;             //158
 	};
-	static_assert(offsetof(class CombatBehaviorTreeControl, unk_158) == 0x158);
+	static_assert(offsetof(class CombatBehaviorTreeControl, master_controller) == 0x158);
 
 }

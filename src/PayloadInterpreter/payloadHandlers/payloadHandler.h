@@ -1,5 +1,7 @@
 #pragma once
 #include "PayloadInterpreter/Dtry_Utils.h"
+#include "RE/CombatBehaviorController.h"
+#include "RE/CombatBehaviorNodesMovement.h"
 
 class payloadHandler
 {
@@ -54,4 +56,27 @@ private:
 	static void enableSurround(RE::Actor* actor, std::vector<std::string_view>* v);
 	static void enableFallback(RE::Actor* actor, std::vector<std::string_view>* v);
 	static void disableAll(RE::Actor* actor);
+
+	template <typename T>
+	static bool InterruptActiveAction(RE::Actor* a_actor)
+	{
+		using NodeState = RE::CombatBehaviorTreeControl::Control_AI_States;
+
+		if (a_actor) {
+			auto combatCtrl = a_actor->combatController;
+			auto behaviorCtrl = combatCtrl ? combatCtrl->behaviorController : nullptr;
+			if (behaviorCtrl) {
+				for (auto nodeCtrl : behaviorCtrl->controls_08) {
+					if (nodeCtrl && nodeCtrl->cur_node && nodeCtrl->current_state == NodeState::processing) {
+						auto activeNode = skyrim_cast<T*>(nodeCtrl->cur_node);
+						if (activeNode) {
+							return a_actor->SetGraphVariableBool("CPR_InterruptAction", true);
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 };

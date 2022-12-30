@@ -1,5 +1,5 @@
 #include "LoadGame.h"
-#include "AdvanceRadius_Hook.h"
+#include "Advance_Hook.h"
 #include "Backoff_Hook.h"
 #include "Circling_Hook.h"
 #include "Fallback_Hook.h"
@@ -11,6 +11,7 @@ namespace CombatPathing
 	{
 		if (msg->type == SKSE::MessagingInterface::kPostLoad) {
 			AdvanceRadiusHook::Install();
+			AdvanceInterruptHook::InstallHook();
 
 			BackoffStartHook::InstallHook();
 			BackoffChanceHook::InstallHook();
