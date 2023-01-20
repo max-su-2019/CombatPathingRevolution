@@ -15,7 +15,7 @@ namespace CombatPathing
 
 			REL::Relocation<std::uintptr_t> Base{ REL::RelocationID(46712, 802680) };  // 7D73D0, 8149B0
 			_GetFallbackDistance = trampoline.write_call<5>(Base.address() + REL::Relocate(0x1EB, 0x1B0), GetFallbackDistance);
-			INFO("Hook FallbackStart!");
+			INFO("{} Done!", __FUNCTION__);
 		}
 
 	private:
@@ -61,7 +61,7 @@ namespace CombatPathing
 
 			handle->Enable();
 
-			INFO("Hook FallbackDistanceUpdate");
+			INFO("{} Done!", __FUNCTION__);
 		}
 	};
 
@@ -76,7 +76,7 @@ namespace CombatPathing
 
 			REL::Relocation<std::uintptr_t> Base{ REL::ID(46713) };  //sub_1407D7740
 			_GetFallbackWaitTime = trampoline.write_call<5>(Base.address() + 0xEA, GetFallbackWaitTime);
-			INFO("Hook FallbackStart!");
+			INFO("{} Done!", __FUNCTION__);
 		}
 
 	private:
@@ -120,7 +120,7 @@ namespace CombatPathing
 
 			handle->Enable();
 
-			INFO("Hook FallbackWaitTimeUpdate");
+			INFO("{} Done!", __FUNCTION__);
 		}
 	};
 }

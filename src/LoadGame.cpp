@@ -4,6 +4,7 @@
 #include "Circling_Hook.h"
 #include "Fallback_Hook.h"
 #include "PayloadInterpreter/hooks.h"
+#include "Settings.h"
 
 namespace CombatPathing
 {
@@ -28,6 +29,13 @@ namespace CombatPathing
 			FallbackWaitTimeHook2::InstallHook();
 
 			Hooks::hook_animationEvent::install();
+
+		} else if (msg->type == SKSE::MessagingInterface::kDataLoaded) {
+			auto settings = CPRSettings::GetSingleton();
+			if (settings->enableDebugLog) {
+				spdlog::set_level(spdlog::level::debug);
+				DEBUG("Enable Debug Log!");
+			}
 		}
 	}
 

@@ -77,7 +77,7 @@ namespace CombatPathing
 
 			Hook_SetMedian->Enable();
 
-			INFO("Hook SetAdvanceRadius!");
+			INFO("{} Done!", __FUNCTION__);
 		}
 	};
 

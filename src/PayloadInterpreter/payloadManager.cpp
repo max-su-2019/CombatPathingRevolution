@@ -18,7 +18,7 @@ constexpr uint32_t operator"" _h(const char* str, size_t size) noexcept
 
 void CPR::delegateNative(RE::Actor* actor, std::string* a_payload)
 {
-	INFO("CPR instruction triggered for {}; instruction: {}", actor->GetName(), a_payload->c_str());
+	DEBUG("CPR instruction triggered for {}; instruction: {}", actor->GetName(), a_payload->c_str());
 	std::vector<std::string_view> tokens;
 	Utils::splitSV(tokens, std::string_view(a_payload->c_str()), '|');
 	switch (hash(tokens[0].data(), tokens[0].size())) {

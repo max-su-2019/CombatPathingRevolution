@@ -7,9 +7,11 @@ namespace CombatPathing
 
 	bool IsMeleeOnly(RE::Actor* a_actor);
 
-	float GetEquippementRange(RE::CombatInventory* a_inv, bool a_full = false);
+	float GetEquippementRange(CombatInventory* a_inv, bool a_full = false);
 
 	std::optional<float> GetGameSettingFloat(const std::string a_name);
+
+	void SetGameSettingFloat(const std::string a_name, float a_value);
 
 	const float RescaleValue(float a_mult, float a_min, float a_max);
 

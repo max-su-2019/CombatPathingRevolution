@@ -19,7 +19,7 @@ namespace CombatPathing
 			REL::Relocation<std::uintptr_t> Base{ REL::RelocationID(49720, 50647) };
 
 			_GetCirclingChance = trampoline.write_branch<5>(Base.address() + REL::Relocate(0x22, 0x2C), GetCirclingChance);
-			INFO("Hook Circling!");
+			INFO("{} Done!", __FUNCTION__);
 		}
 
 	private:

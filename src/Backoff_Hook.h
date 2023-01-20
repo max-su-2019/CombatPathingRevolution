@@ -40,7 +40,7 @@ namespace CombatPathing
 
 			handle->Enable();
 
-			INFO("Hook BackoffStart");
+			INFO("{} Done!", __FUNCTION__);
 		}
 	};
 
@@ -54,7 +54,7 @@ namespace CombatPathing
 
 			REL::Relocation<std::uintptr_t> Base{ REL::RelocationID(46731, 47928) };  // 7D97D0, 816E40
 			_WrapToRandomNode = trampoline.write_call<5>(Base.address() + REL::Relocate(0xD7, 0x1F0), WrapToRandomNode);
-			INFO("Hook BackoffChance!");
+			INFO("{} Done!", __FUNCTION__);
 		}
 
 	private:

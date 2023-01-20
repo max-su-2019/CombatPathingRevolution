@@ -4,9 +4,9 @@ namespace CombatPathing
 {
 	using namespace RE;
 
-	bool IsMeleeOnly(RE::Actor* a_actor)
+	bool IsMeleeOnly(Actor* a_actor)
 	{
-		using TYPE = RE::CombatInventoryItem::TYPE;
+		using TYPE = CombatInventoryItem::TYPE;
 
 		if (!a_actor)
 			return false;
@@ -35,7 +35,7 @@ namespace CombatPathing
 		return false;
 	}
 
-	float GetEquippementRange(RE::CombatInventory* a_inv, bool a_full)
+	float GetEquippementRange(CombatInventory* a_inv, bool a_full)
 	{
 		if (a_inv) {
 			return a_full ? a_inv->maximumRange : a_inv->optimalRange;
@@ -48,12 +48,20 @@ namespace CombatPathing
 	{
 		std::optional<float> result;
 
-		auto setting = RE::GameSettingCollection::GetSingleton()->GetSetting(a_name.c_str());
+		auto setting = GameSettingCollection::GetSingleton()->GetSetting(a_name.c_str());
 		if (setting) {
 			result.emplace(setting->GetFloat());
 		}
 
 		return result;
+	}
+
+	void SetGameSettingFloat(const std::string a_name, float a_value)
+	{
+		auto setting = GameSettingCollection::GetSingleton()->GetSetting(a_name.c_str());
+		if (setting) {
+			setting->data.f = a_value;
+		}
 	}
 
 	const float RescaleValue(float a_mult, float a_min, float a_max)
@@ -85,12 +93,12 @@ namespace CombatPathing
 
 	Character* CombatAI__get_he()
 	{
-		return _generic_foo<46265, RE::Character*>();  // SkyrimSE.exe+7c7b20
+		return _generic_foo<46265, Character*>();  // SkyrimSE.exe+7c7b20
 	}
 
 	Character* CombatAI__get_me()
 	{
-		return _generic_foo<46264, RE::Character*>();  // SkyrimSE.exe+7C7A40
+		return _generic_foo<46264, Character*>();  // SkyrimSE.exe+7C7A40
 	}
 
 }

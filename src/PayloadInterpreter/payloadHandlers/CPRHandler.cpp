@@ -37,7 +37,7 @@ void CPRHandler::enableAdvance(RE::Actor* a_actor, std::vector<std::string_view>
 		return;
 	}
 
-	DEBUG("CPR:EnableAdvance for {}", a_actor->GetName());
+	DEBUG("CPR:EnableAdvance for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	a_actor->SetGraphVariableBool("CPR_EnableAdvanceRadius", true);
 
 	//Set innerRadius value
@@ -64,7 +64,7 @@ void CPRHandler::enableBackoff(RE::Actor* a_actor, std::vector<std::string_view>
 		return;
 	}
 
-	DEBUG("CPR:EnableBackoff for {}", a_actor->GetName());
+	DEBUG("CPR:EnableBackoff for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Backoff data.
 	a_actor->SetGraphVariableBool("CPR_EnableBackoff", true);
 
@@ -87,7 +87,7 @@ void CPRHandler::enableCircling(RE::Actor* a_actor, std::vector<std::string_view
 		return;
 	}
 
-	DEBUG("CPR:EnableCircling for {}", a_actor->GetName());
+	DEBUG("CPR:EnableCircling for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Circling data.
 	a_actor->SetGraphVariableBool("CPR_EnableCircling", true);
 
@@ -115,7 +115,7 @@ void CPRHandler::enableSurround(RE::Actor* a_actor, std::vector<std::string_view
 		return;
 	}
 
-	DEBUG("CPR:EnableSurround for {}", a_actor->GetName());
+	DEBUG("CPR:EnableSurround for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Surround data.
 	a_actor->SetGraphVariableBool("CPR_EnableSurround", true);
 
@@ -139,7 +139,7 @@ void CPRHandler::enableFallback(RE::Actor* a_actor, std::vector<std::string_view
 		return;
 	}
 
-	DEBUG("CPR:EnableFallback for {}", a_actor->GetName());
+	DEBUG("CPR:EnableFallback for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Fallback data.
 	a_actor->SetGraphVariableBool("CPR_EnableFallback", true);
 
@@ -158,22 +158,22 @@ void CPRHandler::enableFallback(RE::Actor* a_actor, std::vector<std::string_view
 
 void CPRHandler::disableAll(RE::Actor* a_actor)
 {
-	DEBUG("CPR:DisableAdvance for {}", a_actor->GetName());
+	DEBUG("CPR:DisableAdvance for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	a_actor->SetGraphVariableBool("CPR_EnableAdvanceRadius", false);
 
-	DEBUG("CPR:DisableBackoff for {}", a_actor->GetName());
+	DEBUG("CPR:DisableBackoff for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Backoff data.
 	a_actor->SetGraphVariableBool("CPR_EnableBackoff", false);
 
-	DEBUG("CPR:DisableCircling for {}", a_actor->GetName());
+	DEBUG("CPR:DisableCircling for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Circling data.
 	a_actor->SetGraphVariableBool("CPR_EnableCircling", false);
 
-	DEBUG("CPR:DisableSurround for {}", a_actor->GetName());
+	DEBUG("CPR:DisableSurround for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Surround data.
 	a_actor->SetGraphVariableBool("CPR_EnableSurround", false);
 
-	DEBUG("CPR:DisableFallback for {}", a_actor->GetName());
+	DEBUG("CPR:DisableFallback for {} - {:x}", a_actor->GetName(), a_actor->formID);
 	//Enable data override on vanilla Fallback data.
 	a_actor->SetGraphVariableBool("CPR_EnableFallback", false);
 }
