@@ -6,7 +6,8 @@ namespace CombatPathing
 {
 	static constexpr char ENABLE_CIRCLING_GV[] = "CPR_EnableCircling",
 						  CIRCLING_MIN_DIST_GV[] = "CPR_CirclingDistMin", CIRCLING_MAX_DIST_GV[] = "CPR_CirclingDistMax",
-						  CIRCLING_MIN_ANG_GV[] = "CPR_CirclingAngleMin", CIRCLING_MAX_ANG_GV[] = "CPR_CirclingAngleMax";
+						  CIRCLING_MIN_ANG_GV[] = "CPR_CirclingAngleMin", CIRCLING_MAX_ANG_GV[] = "CPR_CirclingAngleMax",
+						  CIRCLING_VIEW_ANG_GV[] = "CPR_CirclingViewConeAngle";
 
 	static float GetCircleChance(RE::Character* a_character)
 	{
@@ -140,4 +141,21 @@ namespace CombatPathing
 
 		return 90.f;
 	}
+
+	bool CircleViewConeHook::WithinHeadingAngle(RE::Actor* he, RE::NiPoint3* a_pos, float a_angle)
+	{
+		auto me = CombatAI__get_me();
+		if (me) {
+			bool enableCircling;
+			if (me->GetGraphVariableBool(ENABLE_CIRCLING_GV, enableCircling) && enableCircling && IsMeleeOnly(me)) {
+				float circlingViewConeAngle;
+				if (me->GetGraphVariableFloat(CIRCLING_VIEW_ANG_GV, circlingViewConeAngle)) {
+					return _WithinHeadingAngle(he, a_pos, circlingViewConeAngle * 0.017453292);
+				}
+			}
+		}
+
+		return _WithinHeadingAngle(he, a_pos, a_angle);
+	}
+
 }

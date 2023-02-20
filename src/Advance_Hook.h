@@ -47,7 +47,7 @@ namespace CombatPathing
 		static void RecalculateAdvanceRadius(bool a_fullRadius, float* a_radius, float a_delta, RE::Actor* a_target, RE::Actor* a_attacker);
 
 	public:
-		static void Install()
+		static void InstallHook()
 		{
 			SKSE::AllocTrampoline(static_cast<size_t>(1) << 7);
 

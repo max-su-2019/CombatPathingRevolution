@@ -28,7 +28,7 @@ namespace CombatPathing
 		static inline REL::Relocation<decltype(GetCirclingChance)> _GetCirclingChance;
 	};
 
-	//Insert a previous circle node before the advance node, to allow advance action switch to circle.
+	//Insert a sibling circle node before the advance node, to allow advance action switch to circle.
 	class AdvanceToCircleHook
 	{
 	public:
@@ -155,5 +155,26 @@ namespace CombatPathing
 
 			INFO("{} Done!", __FUNCTION__);
 		}
+	};
+
+	class CircleViewConeHook
+	{
+	public:
+		static void InstallHook()
+		{
+			SKSE::AllocTrampoline(1 << 4);
+
+			REL::Relocation<std::uintptr_t> WithinHeadingAngleBase{ REL::ID(46720) };
+
+			auto& trampoline = SKSE::GetTrampoline();
+			_WithinHeadingAngle = trampoline.write_call<5>(WithinHeadingAngleBase.address() + 0x366, WithinHeadingAngle);
+
+			INFO("{} Done!", __FUNCTION__);
+		}
+
+	private:
+		static bool WithinHeadingAngle(RE::Actor* he, RE::NiPoint3* a_pos, float a_angle);
+
+		static inline REL::Relocation<decltype(WithinHeadingAngle)> _WithinHeadingAngle;
 	};
 }

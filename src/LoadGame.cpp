@@ -11,7 +11,7 @@ namespace CombatPathing
 	void EventCallback(SKSE::MessagingInterface::Message* msg)
 	{
 		if (msg->type == SKSE::MessagingInterface::kPostLoad) {
-			AdvanceRadiusHook::Install();
+			AdvanceRadiusHook::InstallHook();
 			AdvanceInterruptHook::InstallHook();
 
 			BackoffStartHook::InstallHook();
@@ -22,6 +22,7 @@ namespace CombatPathing
 			CircleAngleHook1::InstallHook();
 			CircleAngleHook2::InstallHook();
 			CircleAngleHook3::InstallHook();
+			CircleViewConeHook::InstallHook();
 
 			FallbackDistanceHook1::InstallHook();
 			FallbackDistanceHook2::InstallHook();

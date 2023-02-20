@@ -1,4 +1,3 @@
-#include "RE/CombatBehaviorController.h"
 #include "RE/CombatBehaviorNodesMovement.h"
 #include "payloadHandler.h"
 
@@ -26,134 +25,114 @@ void CPRHandler::process(RE::Actor* actor, std::vector<std::string_view>* v, FUN
 	}
 }
 
+static void SetCPRVariables(RE::Actor* a_actor, const std::string actionName, const std::vector<std::string>& paramNames, std::vector<std::string_view>* v)
+{
+	DEBUG("Enable {} in actor :{}-{:x}", actionName, a_actor->GetName(), a_actor->GetFormID());
+	a_actor->SetGraphVariableBool(actionName, true);
+
+	for (int i = 0; i < paramNames.size(); i++) {
+		const auto argIndex = i + 1;
+		float value;
+		if (argIndex < v->size() && Utils::string_view::to_float(v->at(argIndex), value)) {
+			a_actor->SetGraphVariableFloat(paramNames[i], value);
+		} else {
+			DEBUG("Fail to parse argument \"{}\" for {} in actor :{}-{:x}", paramNames[i], actionName, a_actor->GetName(), a_actor->GetFormID());
+			return;
+		}
+	}
+}
+
 void CPRHandler::enableAdvance(RE::Actor* a_actor, std::vector<std::string_view>* v)
 {
-	if (!checkParamCt(v, 6)) {
-		return;
+	static const std::string actionName = "CPR_EnableAdvanceRadius";
+
+	static const std::vector<std::string> paramName = {
+		"CPR_InnerRadiusMin",
+		"CPR_InnerRadiusMid",
+		"CPR_InnerRadiusMax",
+		"CPR_OuterRadiusMin",
+		"CPR_OuterRadiusMid",
+		"CPR_OuterRadiusMax"
+	};
+
+	SetCPRVariables(a_actor, actionName, paramName, v);
+
+	if (InterruptActiveAction<RE::NodeCloseMovementAdvance>(a_actor)) {
+		DEBUG("Interrupt NodeCloseMovementAdvance in actor :{}-{:x}", a_actor->GetName(), a_actor->GetFormID());
 	}
-	float CPR_InnerRadiusMin, CPR_InnerRadiusMid, CPR_InnerRadiusMax, CPR_OuterRadiusMin, CPR_OuterRadiusMid, CPR_OuterRadiusMax;
-	if (!Utils::string_view::to_float(v->at(1), CPR_InnerRadiusMin) || !Utils::string_view::to_float(v->at(2), CPR_InnerRadiusMid) || !Utils::string_view::to_float(v->at(3), CPR_InnerRadiusMax) || !Utils::string_view::to_float(v->at(4), CPR_OuterRadiusMin) || !Utils::string_view::to_float(v->at(5), CPR_OuterRadiusMid) || !Utils::string_view::to_float(v->at(6), CPR_OuterRadiusMax)) {
-		printErrMsg(v, "Invalid argument for CPR_EnableAdvance.");
-		return;
-	}
-
-	DEBUG("CPR:EnableAdvance for {} - {:x}", a_actor->GetName(), a_actor->formID);
-	a_actor->SetGraphVariableBool("CPR_EnableAdvanceRadius", true);
-
-	//Set innerRadius value
-	a_actor->SetGraphVariableFloat("CPR_InnerRadiusMin", CPR_InnerRadiusMin);
-	a_actor->SetGraphVariableFloat("CPR_InnerRadiusMid", CPR_InnerRadiusMid);
-	a_actor->SetGraphVariableFloat("CPR_InnerRadiusMax", CPR_InnerRadiusMax);
-
-	//Set OuterRadius value
-	a_actor->SetGraphVariableFloat("CPR_OuterRadiusMin", CPR_OuterRadiusMin);
-	a_actor->SetGraphVariableFloat("CPR_OuterRadiusMid", CPR_OuterRadiusMid);
-	a_actor->SetGraphVariableFloat("CPR_OuterRadiusMax", CPR_OuterRadiusMax);
-
-	InterruptActiveAction<RE::NodeCloseMovementAdvance>(a_actor);
 }
 
 void CPRHandler::enableBackoff(RE::Actor* a_actor, std::vector<std::string_view>* v)
 {
-	if (!checkParamCt(v, 2)) {
-		return;
+	static const std::string actionName = "CPR_EnableBackoff";
+
+	static const std::vector<std::string> paramNames = {
+		"CPR_BackoffMinDistMult",
+		"CPR_BackoffChance"
+	};
+
+	SetCPRVariables(a_actor, actionName, paramNames, v);
+	/*
+	if (InterruptActiveAction<RE::NodeCloseMovementBackoff>(a_actor)) {
+		DEBUG("Interrupt NodeCloseMovementBackoff in actor :{}-{:x}", a_actor->GetName(), a_actor->GetFormID());
 	}
-	float MinDistMult, BackoffChance;
-	if (!Utils::string_view::to_float(v->at(1), MinDistMult) || !Utils::string_view::to_float(v->at(2), BackoffChance)) {
-		printErrMsg(v, "Invalid argument for CPR_EnableBackoff.");
-		return;
-	}
-
-	DEBUG("CPR:EnableBackoff for {} - {:x}", a_actor->GetName(), a_actor->formID);
-	//Enable data override on vanilla Backoff data.
-	a_actor->SetGraphVariableBool("CPR_EnableBackoff", true);
-
-	//Set Minimum Backoff Distance Multiple.
-	a_actor->SetGraphVariableFloat("CPR_BackoffMinDistMult", MinDistMult);
-
-	//Set Backoff Chance.
-	a_actor->SetGraphVariableFloat("CPR_BackoffChance", BackoffChance);
+	*/
 }
 
 void CPRHandler::enableCircling(RE::Actor* a_actor, std::vector<std::string_view>* v)
 {
-	if (!checkParamCt(v, 4)) {
-		return;
+	static const std::string actionName = "CPR_EnableCircling";
+
+	static const std::vector<std::string> paramNames = {
+		"CPR_CirclingDistMin",
+		"CPR_CirclingDistMax",
+		"CPR_CirclingAngleMin",
+		"CPR_CirclingAngleMax",
+		"CPR_CirclingViewConeAngle"
+	};
+
+	SetCPRVariables(a_actor, actionName, paramNames, v);
+	/*
+	if (InterruptActiveAction<RE::NodeCloseMovementCircle>(a_actor)) {
+		DEBUG("Interrupt NodeCloseMovementCircle in actor :{}-{:x}", a_actor->GetName(), a_actor->GetFormID());
 	}
-	float CirclingDistMin, CirclingDistMax, CirclingAngleMin, CirclingAngleMax;
-	if (!Utils::string_view::to_float(v->at(1), CirclingDistMin) || !Utils::string_view::to_float(v->at(2), CirclingDistMax) ||
-		!Utils::string_view::to_float(v->at(3), CirclingAngleMin) || !Utils::string_view::to_float(v->at(4), CirclingAngleMax)) {
-		printErrMsg(v, "Invalid argument for CPR_EnableCircling.");
-		return;
-	}
-
-	DEBUG("CPR:EnableCircling for {} - {:x}", a_actor->GetName(), a_actor->formID);
-	//Enable data override on vanilla Circling data.
-	a_actor->SetGraphVariableBool("CPR_EnableCircling", true);
-
-	//Set Minimum Circling Distance.
-	a_actor->SetGraphVariableFloat("CPR_CirclingDistMin", CirclingDistMin);
-
-	//Set Maximum Circling Distance.
-	a_actor->SetGraphVariableFloat("CPR_CirclingDistMax", CirclingDistMax);
-
-	//Set Minimum Circling Angle.
-	a_actor->SetGraphVariableFloat("CPR_CirclingAngleMin", CirclingAngleMin);
-
-	//Set Maximum Circling Angle..
-	a_actor->SetGraphVariableFloat("CPR_CirclingAngleMax", CirclingAngleMax);
+	*/
 }
 
 void CPRHandler::enableSurround(RE::Actor* a_actor, std::vector<std::string_view>* v)
 {
-	if (!checkParamCt(v, 2)) {
-		return;
+	static const std::string actionName = "CPR_EnableSurround";
+
+	static const std::vector<std::string> paramNames = {
+		"CPR_SurroundDistMin",
+		"CPR_SurroundDistMax"
+	};
+
+	SetCPRVariables(a_actor, actionName, paramNames, v);
+	/*
+	if (InterruptActiveAction<RE::NodeCloseMovementSurround>(a_actor)) {
+		DEBUG("Interrupt NodeCloseMovementSurround in actor :{}-{:x}", a_actor->GetName(), a_actor->GetFormID());
 	}
-	float SurroundDistMin, SurroundDistMax;
-	if (!Utils::string_view::to_float(v->at(1), SurroundDistMin) || !Utils::string_view::to_float(v->at(2), SurroundDistMax)) {
-		printErrMsg(v, "Invalid argument for CPR_EnableSurround.");
-		return;
-	}
-
-	DEBUG("CPR:EnableSurround for {} - {:x}", a_actor->GetName(), a_actor->formID);
-	//Enable data override on vanilla Surround data.
-	a_actor->SetGraphVariableBool("CPR_EnableSurround", true);
-
-	//Set Minimum Surround Distance.
-	a_actor->SetGraphVariableFloat("CPR_SurroundDistMin", SurroundDistMin);
-
-	//Set Maximum Surround Distance.
-	a_actor->SetGraphVariableFloat("CPR_SurroundDistMax", SurroundDistMax);
+	*/
 }
 
 void CPRHandler::enableFallback(RE::Actor* a_actor, std::vector<std::string_view>* v)
 {
-	if (!checkParamCt(v, 4)) {
-		return;
+	static const std::string actionName = "CPR_EnableFallback";
+
+	static const std::vector<std::string> paramNames = {
+		"CPR_FallbackDistMin",
+		"CPR_FallbackDistMax",
+		"CPR_FallbackWaitTimeMin",
+		"CPR_FallbackWaitTimeMax",
+	};
+
+	SetCPRVariables(a_actor, actionName, paramNames, v);
+	/*
+	if (InterruptActiveAction<RE::NodeCloseMovementFallback>(a_actor)) {
+		DEBUG("Interrupt NodeCloseMovementFallback in actor :{}-{:x}", a_actor->GetName(), a_actor->GetFormID());
 	}
-
-	float FallbackDistMin, FallbackDistMax, FallbackWaitTimeMin, FallbackWaitTimeMax;
-	if (!Utils::string_view::to_float(v->at(1), FallbackDistMin) || !Utils::string_view::to_float(v->at(2), FallbackDistMax) ||
-		!Utils::string_view::to_float(v->at(3), FallbackWaitTimeMin) || !Utils::string_view::to_float(v->at(4), FallbackWaitTimeMax)) {
-		printErrMsg(v, "Invalid argument for CPR_EnableFallback.");
-		return;
-	}
-
-	DEBUG("CPR:EnableFallback for {} - {:x}", a_actor->GetName(), a_actor->formID);
-	//Enable data override on vanilla Fallback data.
-	a_actor->SetGraphVariableBool("CPR_EnableFallback", true);
-
-	//Set Minimum Fallback Distance.
-	a_actor->SetGraphVariableFloat("CPR_FallbackDistMin", FallbackDistMin);
-
-	//Set Maximum Fallback Distance.
-	a_actor->SetGraphVariableFloat("CPR_FallbackDistMax", FallbackDistMax);
-
-	//Set Minimum Fallback Wait Time.
-	a_actor->SetGraphVariableFloat("CPR_FallbackWaitTimeMin", FallbackWaitTimeMin);
-
-	//Set Maximum Fallback Wait Time.
-	a_actor->SetGraphVariableFloat("CPR_FallbackWaitTimeMax", FallbackWaitTimeMax);
+	*/
 }
 
 void CPRHandler::disableAll(RE::Actor* a_actor)
