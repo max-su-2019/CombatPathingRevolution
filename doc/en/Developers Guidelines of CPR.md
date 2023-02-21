@@ -145,7 +145,7 @@ Using annotations is a suitable method to implement if your CPR pathing dataset 
     <br/> 
 
 3. Active the circling data on the actor:<br/>
-   `CPR.EnableCircling|(float)CirclingDistMin|(float)CirclingDistMax|(float)CirclingAngleMin|(float)CirclingAngleMax`<br/> 
+   `CPR.EnableCircling|(float)CirclingDistMin|(float)CirclingDistMax|(float)CirclingAngleMin|(float)CirclingAngleMax|(float)CPR_CirclingViewConeAngle`<br/> 
     These console commands in "MaxsuCPR_Enable.ini":
     ```
     SetAnimGraphVar CPR_EnableCircling 1
@@ -157,9 +157,11 @@ Using annotations is a suitable method to implement if your CPR pathing dataset 
     SetAnimGraphVar  CPR_CirclingAngleMin 90
 
     SetAnimGraphVar  CPR_CirclingAngleMax 120
+    
+    SetAnimGraphVar  CPR_CirclingViewConeAngle 360
     ```
     would be equal to annotation:<br/> 
-    `CPR.EnableCircling|90|1200|90|120`  
+    `CPR.EnableCircling|90|1200|90|120|360`  
     <br/> 
 
 4. Active the fallback data on the actor:<br/>
