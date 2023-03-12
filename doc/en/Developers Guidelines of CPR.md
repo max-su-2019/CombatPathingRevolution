@@ -8,7 +8,7 @@ This article would instructs you on how to utilize **Combat Pathing Revolution**
 
 ## Descriptions of Variables
 ---  
-In order to implement a dynamic and highly customizable AI pathing feature, CPR using graph variables (A.K.A [Animation Variables](https://www.creationkit.com/index.php?title=List_of_Animation_Variables)) to represents the AI data that using to control the melee combat pathing AI for npc during the combat gameplay. CPR using these graph variables to override those core data that controlled the AI pathing, therefore with CPR, each npc in game now could has a completely unique pathing dataset as it owned which is a great different to the vanilla "single global value assign to everyone".  
+In order to implement a dynamic and highly customizable AI pathing feature, CPR using graph variables (A.K.A [Animation Variables](https://www.creationkit.com/index.php?title=List_of_Animation_Variables)) to store the AI data that using to control the melee combat pathing AI for npc during the combat gameplay. CPR using these graph variables to override those core data that controlled the AI pathing, therefore with CPR, each npc in game now could has a completely unique pathing dataset as it owned which is a great different to the vanilla "single global value assign to everyone".  
 
 Before we go detail, one thing have to mention is that **you don't need to consider the weapon length distance when assiging all of those CPR distance variables**, the weapon length will be added automactilly from skse plugin end when computing the final result.
 
