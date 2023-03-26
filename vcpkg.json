@@ -3,10 +3,16 @@
     "version-string":  "1.0.0",
     "description":  "",
     "license":  "MIT",
-    "dependencies":  [
-						 "effolkronium-random",
-                         "spdlog"
-                     ],
+    "dependencies": [
+        "effolkronium-random",
+        "rsm-binary-io",
+        "simpleini",
+        "spdlog",
+        "nlohmann-json",
+        "rapidcsv",
+        "tomlplusplus",
+        "xbyak"
+      ],
     "features":  {
                      "mo2-install":  {
                                          "description":  "Combat Pathing Revolution"

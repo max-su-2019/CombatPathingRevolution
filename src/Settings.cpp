@@ -23,10 +23,10 @@ namespace CombatPathing
 		PrintSettingValue(circleChanceMax);
 		PrintSettingValue(circleAnglePlayerMult);
 
-		SetGameSettingFloat(fallbackChanceMin.get_key(), *fallbackChanceMin);
-		SetGameSettingFloat(fallbackChanceMax.get_key(), *fallbackChanceMax);
-		SetGameSettingFloat(circleChanceMin.get_key(), *circleChanceMin);
-		SetGameSettingFloat(circleChanceMax.get_key(), *circleChanceMax);
-		SetGameSettingFloat(circleAnglePlayerMult.get_key(), *circleAnglePlayerMult);
+		SetGameSettingFloat(fallbackChanceMin.get_key().data(), *fallbackChanceMin);
+		SetGameSettingFloat(fallbackChanceMax.get_key().data(), *fallbackChanceMax);
+		SetGameSettingFloat(circleChanceMin.get_key().data(), *circleChanceMin);
+		SetGameSettingFloat(circleChanceMax.get_key().data(), *circleChanceMax);
+		SetGameSettingFloat(circleAnglePlayerMult.get_key().data(), *circleAnglePlayerMult);
 	}
 }
