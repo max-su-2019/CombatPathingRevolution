@@ -1,6 +1,6 @@
 {
     "name":  "combatpathingrevolution",
-    "version-string":  "1.0.0",
+    "version-string":  "0.30.0",
     "description":  "",
     "license":  "MIT",
     "dependencies": [
