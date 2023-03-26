@@ -50,9 +50,39 @@ source_group(
 	FILES ${CMAKE_CURRENT_BINARY_DIR}/include/Version.h
 )
 
+# dependency macros
+macro(find_dependency_path DEPENDENCY FILE)
+	# searches extern for dependencies and if not checks the environment variable
+	if(NOT ${DEPENDENCY} STREQUAL "")
+		# Check extern
+		message(
+			STATUS
+			"Searching for ${DEPENDENCY} using file ${FILE}"
+		)
+		find_path("${DEPENDENCY}Path"
+			${FILE}
+			PATHS "extern/${DEPENDENCY}")
+
+		if("${${DEPENDENCY}Path}" STREQUAL "${DEPENDENCY}Path-NOTFOUND")
+			# Check path
+			message(
+				STATUS
+				"Getting environment for ${DEPENDENCY}Path: $ENV{${DEPENDENCY}Path}"
+			)
+			set("${DEPENDENCY}Path" "$ENV{${DEPENDENCY}Path}")
+		endif()
+
+		message(
+			STATUS
+			"Found ${DEPENDENCY} in ${${DEPENDENCY}Path}; adding"
+		)
+		add_subdirectory("${${DEPENDENCY}Path}" ${DEPENDENCY})
+	endif()
+endmacro()
+
 # dependencies
-add_subdirectory($ENV{CommonLibSSEPath} CommonLibSSE)
-add_subdirectory($ENV{DKUtilPath} DKUtil)
+find_dependency_path(CommonLibSSE include/REL/Relocation.h)
+find_dependency_path(DKUtil include/DKUtil/Config.hpp)
 find_package(spdlog CONFIG REQUIRED)
 
 # cmake target
