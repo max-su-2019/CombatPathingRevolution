@@ -1,0 +1,6 @@
+[submodule "extern/CommonLibSSE"]
+	path = extern/CommonLibSSE
+	url = https://github.com/alandtse/CommonLibVR.git
+[submodule "extern/DKUtil"]
+	path = extern/DKUtil
+	url = https://github.com/alandtse/DKUtil.git

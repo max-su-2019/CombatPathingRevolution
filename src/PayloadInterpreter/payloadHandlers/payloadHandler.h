@@ -63,7 +63,7 @@ private:
 		using NodeState = RE::CombatBehaviorTreeControl::Control_AI_States;
 
 		if (a_actor) {
-			auto combatCtrl = a_actor->combatController;
+			auto combatCtrl = a_actor->GetActorRuntimeData().combatController;
 			auto behaviorCtrl = combatCtrl ? combatCtrl->behaviorController : nullptr;
 			if (behaviorCtrl) {
 				for (auto nodeCtrl : behaviorCtrl->controls_08) {
