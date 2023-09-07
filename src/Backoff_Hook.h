@@ -36,8 +36,7 @@ namespace CombatPathing
 				REL::RelocationID(SE_FuncID, AE_FuncID).address(),
 				REL::Relocate(std::make_pair(SE_OffsetL, SE_OffsetH), std::make_pair(AE_OffsetL, AE_OffsetH)),
 				FUNC_INFO(RescaleBackoffMinDistanceMult),
-				&RelocatePointer,
-				nullptr);
+				&RelocatePointer);
 
 			handle->Enable();
 
